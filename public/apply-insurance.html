@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Apply | Mangukiya Reserve</title>
+
+    <!-- Material Symbols -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&amp;family=Playfair+Display:ital,wght@0,600;0,700;1,600;1,700&amp;family=Manrope:wght@300;400;600;700&amp;display=swap" rel="stylesheet"/>
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#baeddd",
+                        "primary-fixed": "#baeddc",
+                        "background": "#0A0A0A",
+                        "surface": "#121212",
+                        "on-surface": "#f5f3f2",
+                        "on-surface-variant": "#a3aaa6",
+                    },
+                    fontFamily: {
+                        "serif": ["Playfair Display"],
+                        "sans": ["Manrope"],
+                        "mono": ["JetBrains Mono"]
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #0A0A0A;
+            color: #f5f3f2;
+            -webkit-font-smoothing: antialiased;
+        }
+        .glass-panel {
+            background: rgba(18, 18, 18, 0.4);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+    </style>
+</head>
+<body class="font-sans min-h-screen flex flex-col relative overflow-hidden">
+    <!-- Dynamic Background Elements -->
+    <div class="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+        <div class="absolute -top-[20%] -right-[10%] w-[800px] h-[800px] bg-primary-fixed/5 rounded-full blur-[150px]"></div>
+        <div class="absolute top-[40%] -left-[10%] w-[600px] h-[600px] bg-primary-fixed/5 rounded-full blur-[150px]"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="w-full z-50 flex justify-between items-center px-10 py-8 relative">
+        <a href="index.html" class="flex items-center gap-4 group">
+            <svg class="w-8 h-8 text-primary-fixed group-hover:rotate-180 transition-transform duration-700" viewBox="0 0 24 24" fill="currentColor">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M12 0L14.5 9.5L24 12L14.5 14.5L12 24L9.5 14.5L0 12L9.5 9.5L12 0ZM12 14C13.1046 14 14 13.1046 14 12C14 10.8954 13.1046 10 12 10C10.8954 10 10 10.8954 10 12C10 13.1046 10.8954 14 12 14Z" />
+            </svg>
+            <span class="text-xl font-serif tracking-widest uppercase hidden md:block">Mangukiya Reserve</span>
+        </a>
+        <a href="dashboard.html" class="text-xs font-bold tracking-widest text-on-surface hover:text-primary-fixed uppercase transition-colors flex items-center gap-2">
+            <span class="material-symbols-outlined text-[18px]">arrow_back</span>
+            Return to Dashboard
+        </a>
+    </nav>
+
+    <!-- Main Content -->
+    <!-- Main Content -->
+    <main class="flex-grow relative z-10 w-full max-w-6xl mx-auto px-6 py-12 lg:py-20 flex items-center justify-center">
+        <div class="grid lg:grid-cols-[1fr_1.1fr] gap-12 lg:gap-20 w-full items-center">
+            
+            <!-- Left Side: Copy & Contact Info -->
+            <div class="flex flex-col justify-center">
+                <div class="mb-12">
+                    <span class="text-primary-fixed font-mono text-sm tracking-[0.2em] uppercase mb-4 flex items-center gap-3"><span class="w-8 h-px bg-primary-fixed"></span> Application Process</span>
+                    <h1 class="text-5xl lg:text-6xl font-serif leading-tight tracking-tight mb-6">Initiate Your <br><span class="italic font-light text-primary-fixed">Application.</span></h1>
+                    <p class="text-on-surface-variant text-base leading-relaxed max-w-md">
+                        To maintain our institutional standards, all financing facilities require a direct consultation with our senior advisory board. Connect directly or request a callback.
+                    </p>
+                </div>
+
+                <div class="flex flex-col gap-4">
+                    <!-- Contact Block 1 -->
+                    <div class="group cursor-pointer flex items-center gap-6 p-4 -ml-4 hover:bg-white/[0.02] rounded-xl transition-colors">
+                        <div class="w-14 h-14 rounded-full bg-white/5 border border-white/5 flex items-center justify-center group-hover:bg-primary-fixed/10 group-hover:border-primary-fixed/20 transition-colors">
+                            <span class="material-symbols-outlined text-white group-hover:text-primary-fixed transition-colors">phone_in_talk</span>
+                        </div>
+                        <div>
+                            <p class="text-[10px] uppercase tracking-[0.2em] text-on-surface-variant mb-1">Direct Advisory Line</p>
+                            <p class="text-xl font-mono text-white tracking-tight group-hover:text-primary-fixed transition-colors">+91 98765 43210</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Contact Block 2 -->
+                    <div class="group cursor-pointer flex items-center gap-6 p-4 -ml-4 hover:bg-white/[0.02] rounded-xl transition-colors">
+                        <div class="w-14 h-14 rounded-full bg-white/5 border border-white/5 flex items-center justify-center group-hover:bg-primary-fixed/10 group-hover:border-primary-fixed/20 transition-colors">
+                            <span class="material-symbols-outlined text-white group-hover:text-primary-fixed transition-colors">mail</span>
+                        </div>
+                        <div>
+                            <p class="text-[10px] uppercase tracking-[0.2em] text-on-surface-variant mb-1">Private Email</p>
+                            <p class="text-xl font-mono text-white tracking-tight group-hover:text-primary-fixed transition-colors">apply@mangukiyareserve.com</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Contact Block 3 -->
+                    <div class="group cursor-pointer flex items-center gap-6 p-4 -ml-4 hover:bg-white/[0.02] rounded-xl transition-colors">
+                        <div class="w-14 h-14 rounded-full bg-white/5 border border-white/5 flex items-center justify-center group-hover:bg-primary-fixed/10 group-hover:border-primary-fixed/20 transition-colors">
+                            <span class="material-symbols-outlined text-white group-hover:text-primary-fixed transition-colors">corporate_fare</span>
+                        </div>
+                        <div>
+                            <p class="text-[10px] uppercase tracking-[0.2em] text-on-surface-variant mb-1">Corporate Headquarters</p>
+                            <p class="text-sm font-sans text-white leading-relaxed tracking-wide group-hover:text-primary-fixed transition-colors">Mangukiya Consultant, Surat, Gujarat</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Side: Consultation Form -->
+            <div class="bg-[#121212]/90 backdrop-blur-2xl border border-white/10 p-10 lg:p-12 shadow-2xl relative rounded-2xl group">
+                <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary-fixed to-transparent opacity-50 rounded-t-2xl"></div>
+                
+                <h3 class="text-3xl font-serif mb-2 text-white">Request Insurance Consultation</h3>
+                <p class="text-sm text-on-surface-variant mb-8">Provide your details and an insurance advisor will contact you shortly.</p>
+
+                <form id="applyForm" class="flex flex-col gap-5">
+                    <div class="grid grid-cols-2 gap-5">
+                        <div>
+                            <label class="block text-[10px] uppercase tracking-widest text-on-surface-variant mb-2">First Name</label>
+                            <input type="text" id="first_name" required class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm text-on-surface focus:outline-none focus:border-primary-fixed transition-colors placeholder:text-white/20" placeholder="John">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] uppercase tracking-widest text-on-surface-variant mb-2">Last Name</label>
+                            <input type="text" id="last_name" required class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm text-on-surface focus:outline-none focus:border-primary-fixed transition-colors placeholder:text-white/20" placeholder="Doe">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-5">
+                        <div>
+                            <label class="block text-[10px] uppercase tracking-widest text-on-surface-variant mb-2">Mobile Number</label>
+                            <input type="tel" id="mobile_number" required class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm text-on-surface focus:outline-none focus:border-primary-fixed transition-colors placeholder:text-white/20" placeholder="+91">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] uppercase tracking-widest text-on-surface-variant mb-2">Email Address</label>
+                            <input type="email" id="email_address" required class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm text-on-surface focus:outline-none focus:border-primary-fixed transition-colors placeholder:text-white/20" placeholder="@">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-[10px] uppercase tracking-widest text-on-surface-variant mb-2">Facility Required</label>
+                        <select id="facility_type" class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm text-on-surface focus:outline-none focus:border-primary-fixed transition-colors appearance-none cursor-pointer">
+                            <option value="Health Insurance" class="bg-surface text-on-surface">Health Insurance</option>
+                            <option value="Mortgage Insurance" class="bg-surface text-on-surface">Mortgage Insurance</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-[10px] uppercase tracking-widest text-on-surface-variant mb-2">Estimated Requirement (₹)</label>
+                        <input type="text" id="amount" class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm text-on-surface focus:outline-none focus:border-primary-fixed transition-colors placeholder:text-white/20" placeholder="e.g. 5,00,00,000">
+                    </div>
+
+                    <button type="submit" class="w-full mt-4 bg-primary-fixed rounded-lg text-[#00382d] font-bold tracking-[0.2em] text-sm py-4 hover:bg-white transition-colors duration-300">
+                        SUBMIT INQUIRY
+                    </button>
+                    
+                    <p class="text-[10px] text-center text-on-surface-variant mt-2 opacity-60">Your information is protected by strictly confidential client privilege.</p>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const userEmail = localStorage.getItem('userEmail');
+        if (userEmail) {
+            const emailInput = document.getElementById('email_address');
+            emailInput.value = userEmail;
+            emailInput.readOnly = true;
+            emailInput.classList.add('opacity-70', 'cursor-not-allowed');
+        }
+
+        document.getElementById('applyForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button');
+            const originalText = btn.textContent;
+            btn.textContent = 'SUBMITTING...';
+            
+            const data = {
+                first_name: document.getElementById('first_name').value,
+                last_name: document.getElementById('last_name').value,
+                mobile_number: document.getElementById('mobile_number').value,
+                email: document.getElementById('email_address').value,
+                facility_type: document.getElementById('facility_type').value,
+                amount: document.getElementById('amount').value,
+            };
+            
+            try {
+                const res = await fetch('/api/inquiries', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                if (res.ok) {
+                    alert('Your inquiry has been submitted securely.');
+                    window.location.href = 'dashboard.html';
+                } else {
+                    alert('Error submitting inquiry.');
+                    btn.textContent = originalText;
+                }
+            } catch(err) {
+                alert('Server connection failed.');
+                btn.textContent = originalText;
+            }
+        });
+    </script>
+</body>
+</html>

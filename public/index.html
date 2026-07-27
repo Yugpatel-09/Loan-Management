@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MANGUKIYA RESERVE | Institutional Private Lending</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&amp;family=Playfair+Display:ital,wght@0,600;0,700;1,600;1,700&amp;family=Manrope:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+                  "primary": "#baeddd",
+                  "primary-fixed": "#baeddc",
+                  "inverse-on-surface": "#313030",
+                  "error": "#ffb4ab",
+                  "secondary-fixed-dim": "#c6c6c7",
+                  "on-primary-container": "#2b5b4e",
+                  "secondary-container": "#454747",
+                  "surface-tint": "#9fd1c1",
+                  "on-tertiary-fixed-variant": "#474746",
+                  "background": "#0A0A0A",
+                  "on-secondary": "#2f3131",
+                  "surface-container-lowest": "#080808",
+                  "tertiary-fixed-dim": "#c8c6c5",
+                  "primary-fixed-dim": "#9fd1c1",
+                  "on-primary-fixed-variant": "#1e4f43",
+                  "on-secondary-container": "#b4b5b5",
+                  "on-surface-variant": "#a3aaa6",
+                  "surface-container-low": "#121212",
+                  "on-error": "#690005",
+                  "secondary-fixed": "#e2e2e2",
+                  "on-secondary-fixed": "#1a1c1c",
+                  "on-secondary-fixed-variant": "#454747",
+                  "inverse-surface": "#e5e2e1",
+                  "surface-container-high": "#1E1E1E",
+                  "surface-bright": "#262626",
+                  "on-primary": "#00382d",
+                  "outline-variant": "#2a2a2a",
+                  "outline": "#404040",
+                  "primary-container": "#9fd1c1",
+                  "on-tertiary-fixed": "#1c1b1b",
+                  "tertiary": "#e5e2e2",
+                  "surface-container-highest": "#282828",
+                  "on-tertiary-container": "#535252",
+                  "inverse-primary": "#37675a",
+                  "surface-dim": "#0e0e0e",
+                  "surface-container": "#161616",
+                  "on-primary-fixed": "#002019",
+                  "on-error-container": "#ffdad6",
+                  "on-surface": "#f5f3f2",
+                  "secondary": "#c6c6c7",
+                  "surface": "#0d0d0d",
+                  "tertiary-container": "#c9c6c6",
+                  "surface-variant": "#1c1c1b",
+                  "error-container": "#93000a",
+                  "tertiary-fixed": "#e5e2e1",
+                  "on-tertiary": "#313030",
+                  "on-background": "#f5f3f2"
+          },
+          "borderRadius": {
+                  "DEFAULT": "0.125rem",
+                  "lg": "0.25rem",
+                  "xl": "0.5rem",
+                  "full": "9999px"
+          },
+          "spacing": {
+                  "terminal-padding": "2rem",
+                  "section-gap": "10rem",
+                  "gutter": "1.5rem",
+                  "margin-edge": "5rem",
+                  "stack-md": "1.5rem",
+                  "stack-sm": "0.5rem"
+          },
+          "fontFamily": {
+                  "mono-label": ["JetBrains Mono"],
+                  "headline-md": ["Playfair Display"],
+                  "terminal-data": ["JetBrains Mono"],
+                  "display-lg-mobile": ["Playfair Display"],
+                  "headline-sm": ["Playfair Display"],
+                  "body-md": ["Manrope"],
+                  "label-caps": ["Manrope"],
+                  "body-lg": ["Manrope"],
+                  "display-lg": ["Playfair Display"]
+          },
+          "fontSize": {
+                  "mono-label": ["11px", { "lineHeight": "1", "letterSpacing": "0.08em", "fontWeight": "400" }],
+                  "headline-md": ["44px", { "lineHeight": "1.1", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                  "terminal-data": ["28px", { "lineHeight": "1", "letterSpacing": "-0.04em", "fontWeight": "500" }],
+                  "display-lg-mobile": ["52px", { "lineHeight": "1.05", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                  "headline-sm": ["26px", { "lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                  "body-md": ["15px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                  "label-caps": ["11px", { "lineHeight": "1", "letterSpacing": "0.2em", "fontWeight": "700" }],
+                  "body-lg": ["19px", { "lineHeight": "1.6", "letterSpacing": "0.01em", "fontWeight": "400" }],
+                  "display-lg": ["80px", { "lineHeight": "1.05", "letterSpacing": "-0.03em", "fontWeight": "700" }]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 20;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+    body {
+      background-color: #080808;
+      color: #f5f3f2;
+      -webkit-font-smoothing: antialiased;
+      scroll-behavior: smooth;
+    }
+    
+    .glass-panel {
+      background: rgba(22, 22, 22, 0.4);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .terminal-border {
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    
+    /* Smooth continuous ticker animation */
+    @keyframes ticker {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    .animate-ticker {
+      display: flex;
+      width: fit-content;
+      animation: ticker 45s linear infinite;
+    }
+    .animate-ticker:hover {
+      animation-play-state: paused;
+    }
+
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+    .signature-quote::before {
+      content: '"';
+      position: absolute;
+      left: -0.5em;
+      top: 0;
+      font-family: 'Playfair Display';
+      font-size: 3rem;
+      opacity: 0.15;
+      color: #9fd1c1;
+    }
+    html {
+      scroll-behavior: smooth;
+    }
+  </style>
+</head>
+<body class="font-body-md overflow-x-hidden">
+<!-- TOP NAV BAR -->
+<nav class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-terminal-padding py-6 max-w-full bg-background/80 backdrop-blur-xl border-b border-white/5">
+<div class="flex items-center gap-5">
+<svg class="w-7 h-7 text-primary-fixed cursor-pointer hover:rotate-180 transition-transform duration-700" viewBox="0 0 24 24" fill="currentColor">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M12 0L14.5 9.5L24 12L14.5 14.5L12 24L9.5 14.5L0 12L9.5 9.5L12 0ZM12 14C13.1046 14 14 13.1046 14 12C14 10.8954 13.1046 10 12 10C10.8954 10 10 10.8954 10 12C10 13.1046 10.8954 14 12 14Z" />
+</svg>
+<span class="text-headline-sm font-headline-sm tracking-tight text-on-surface uppercase">MANGUKIYA RESERVE</span>
+</div>
+<div class="hidden md:flex gap-10 items-center relative">
+    <div class="relative">
+        <a class="text-label-caps font-label-caps text-on-surface-variant hover:text-primary transition-all duration-300 cursor-pointer" onclick="toggleMegaMenu()">LOAN TYPES</a>
+        
+        <!-- MEGA MENU -->
+        <div id="megaMenu" class="fixed top-[85px] left-1/2 -translate-x-1/2 w-[900px] max-w-[95vw] bg-white text-black shadow-2xl opacity-0 invisible transition-all duration-300 rounded-lg overflow-hidden z-[100] border border-gray-200">
+            <div class="flex p-10 gap-10">
+                <!-- Column 1 -->
+                <div class="flex-1">
+                    <h4 class="text-[11px] font-bold text-gray-500 uppercase tracking-widest mb-6">Housing & Real Estate</h4>
+                    <ul class="space-y-4">
+                        <li><a href="#" class="text-sm font-medium hover:text-blue-600 transition-colors text-gray-800">Standard Home Loan</a></li>
+                        <li><a href="#" class="text-sm font-medium hover:text-blue-600 transition-colors text-gray-800">Premium Property Finance</a></li>
+                        <li><a href="#" class="text-sm font-medium hover:text-blue-600 transition-colors text-gray-800">Plot Acquisition</a></li>
+                        <li><a href="#" class="text-sm font-medium hover:text-blue-600 transition-colors text-gray-800">Construction Finance</a></li>
+                        <li><a href="#" class="text-sm font-medium hover:text-blue-600 transition-colors text-gray-800">Home Extension & Renovation</a></li>
+                    </ul>
+                </div>
+                <!-- Column 2 -->
+                <div class="flex-1">
+                    <h4 class="text-[11px] font-bold text-gray-500 uppercase tracking-widest mb-6">Machinery & Capex</h4>
+                    <ul class="space-y-4">
+                        <li><a href="#" class="text-sm font-medium hover:text-blue-600 transition-colors text-gray-800">Industrial Equipment</a></li>
+                        <li><a href="#" class="text-sm font-medium hover:text-blue-600 transition-colors text-gray-800">Medical Equipment</a></li>
+                        <li><a href="#" class="text-sm font-medium hover:text-blue-600 transition-colors text-gray-800">Commercial Vehicles</a></li>
+                        <li><a href="#" class="text-sm font-medium hover:text-blue-600 transition-colors text-gray-800">IT Infrastructure</a></li>
+                        <li><a href="#" class="text-sm font-medium hover:text-blue-600 transition-colors text-gray-800">Plant Expansion</a></li>
+                    </ul>
+                </div>
+                <!-- Column 3 -->
+                <div class="flex-1 border-l border-gray-100 pl-10">
+                    <h4 class="text-[11px] font-bold text-gray-500 uppercase tracking-widest mb-6">Project & Institutional</h4>
+                    <ul class="space-y-4">
+                        <li><a href="#" class="text-sm font-medium hover:text-blue-600 transition-colors text-gray-800">Commercial Real Estate</a></li>
+                        <li><a href="#" class="text-sm font-medium hover:text-blue-600 transition-colors text-gray-800">Infrastructure Projects</a></li>
+                        <li><a href="#" class="text-sm font-medium hover:text-blue-600 transition-colors text-gray-800">Working Capital</a></li>
+                        <li><a href="#" class="text-sm font-medium hover:text-blue-600 transition-colors text-gray-800">Syndicated Loans</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="bg-gray-50 p-6 px-10 flex justify-between items-center border-t border-gray-200">
+                <div>
+                    <p class="text-sm font-bold text-gray-900">Not sure which loan is best for you?</p>
+                    <p class="text-xs text-gray-500 mt-1">Whichever asset you pursue, there's a financing option to match.</p>
+                </div>
+                <button class="bg-black text-white px-6 py-2.5 text-xs font-bold tracking-widest uppercase hover:bg-gray-800 transition-colors rounded-full">Find your loan</button>
+            </div>
+        </div>
+    </div>
+    <a class="text-label-caps font-label-caps text-primary relative after:absolute after:-bottom-2 after:left-0 after:w-full after:h-px after:bg-primary" href="#live-terminal">RATES</a>
+    <a class="text-label-caps font-label-caps text-on-surface-variant hover:text-primary transition-all duration-300" href="#market-precision">CALCULATORS</a>
+</div>
+<a href="login.html" class="bg-transparent border border-outline px-6 py-2.5 text-label-caps font-label-caps text-on-surface hover:bg-on-surface hover:text-background transition-all duration-500 inline-block text-center cursor-pointer">
+      SIGN IN
+    </a>
+</nav>
+<!-- HERO SECTION -->
+<header class="relative min-h-[90vh] flex flex-col items-center justify-center px-margin-edge text-center pt-40 pb-20">
+<div class="flex items-center gap-6 mb-10 opacity-70">
+<div class="h-px w-8 bg-primary-fixed/40"></div>
+<span class="text-label-caps font-label-caps tracking-[0.25em] text-on-surface-variant">ESTABLISHED IN 2007</span>
+<div class="h-px w-8 bg-primary-fixed/40"></div>
+</div>
+<h1 class="text-display-lg-mobile md:text-display-lg font-display-lg mb-10 max-w-5xl leading-tight">
+      The Pinnacle of <br/>
+<span class="italic font-light text-primary-fixed-dim">Private Lending.</span>
+</h1>
+<p class="text-body-lg font-body-lg text-on-surface-variant max-w-2xl mb-14 opacity-80">
+      Bespoke credit solutions engineered for ultra-high-net-worth individuals. We provide institutional security with the absolute discretion of a private family office.
+    </p>
+<div class="flex flex-col md:flex-row gap-8">
+<button class="bg-on-surface text-background px-12 py-5 font-label-caps text-label-caps hover:bg-primary transition-all duration-500 hover:scale-[1.02]">
+        REQUEST CONSULTATION
+      </button>
+<button class="border border-white/10 px-12 py-5 font-label-caps text-label-caps text-on-surface hover:border-primary-fixed/40 transition-all duration-500 hover:bg-white/[0.02]">
+        VIEW PORTFOLIO
+      </button>
+</div>
+</header>
+<!-- LIVE TERMINAL -->
+<div id="live-terminal" class="w-full px-terminal-padding mb-section-gap pt-10 mt--10">
+<div class="glass-panel border border-white/5 overflow-hidden">
+<!-- Terminal Header -->
+<div class="flex justify-between items-center px-8 py-4 border-b border-white/5 bg-white/[0.02]">
+<div class="flex items-center gap-4">
+<span class="w-1.5 h-1.5 bg-primary-fixed shadow-[0_0_8px_rgba(159,209,193,0.6)] rounded-full"></span>
+<span class="text-mono-label font-mono-label uppercase text-on-surface-variant/80">LIVE TERMINAL // SR-IQ MARKET INTELLIGENCE</span>
+</div>
+<div class="flex gap-8">
+<span class="text-mono-label font-mono-label text-on-surface-variant/80">YIELD CURVE: <span class="text-error uppercase tracking-widest font-bold">INVERTED</span></span>
+<span class="text-mono-label font-mono-label text-on-surface-variant uppercase tracking-widest" id="utc-clock">UTC-0 14:32:01</span>
+</div>
+</div>
+<!-- Terminal Ticker Data -->
+<div class="flex overflow-hidden relative">
+<div class="animate-ticker">
+<!-- Data Points Set 1 -->
+<div class="flex divide-x divide-white/5">
+<div class="p-10 group hover:bg-white/[0.03] transition-colors min-w-[340px] cursor-crosshair">
+<span class="text-mono-label font-mono-label uppercase text-on-surface-variant mb-5 block">15Y FIXED LUXURY</span>
+<div class="flex items-baseline gap-3">
+<span class="text-terminal-data font-terminal-data text-on-surface group-hover:text-primary-fixed transition-colors duration-500">4.625%</span>
+<span class="text-mono-label font-mono-label text-error">-0.010</span>
+</div>
+</div>
+<div class="p-10 group hover:bg-white/[0.03] transition-colors min-w-[340px] cursor-crosshair">
+<span class="text-mono-label font-mono-label uppercase text-on-surface-variant mb-5 block">JUMBO ARM ASSET-BACK</span>
+<div class="flex items-baseline gap-3">
+<span class="text-terminal-data font-terminal-data text-on-surface group-hover:text-primary-fixed transition-colors duration-500">4.875%</span>
+<span class="text-mono-label font-mono-label text-on-surface-variant/40 uppercase">UNCH</span>
+</div>
+</div>
+<div class="p-10 group hover:bg-white/[0.03] transition-colors min-w-[340px] cursor-crosshair">
+<span class="text-mono-label font-mono-label uppercase text-on-surface-variant mb-5 block">PORTFOLIO LIQUIDITY</span>
+<div class="flex items-baseline gap-3">
+<span class="text-terminal-data font-terminal-data text-on-surface group-hover:text-primary-fixed transition-colors duration-500">SOFR+1.20%</span>
+<span class="text-mono-label font-mono-label text-primary">+0.005</span>
+</div>
+</div>
+<div class="p-10 group hover:bg-white/[0.03] transition-colors min-w-[340px] cursor-crosshair">
+<span class="text-mono-label font-mono-label uppercase text-on-surface-variant mb-5 block">UST 10Y YIELD</span>
+<div class="flex items-baseline gap-3">
+<span class="text-terminal-data font-terminal-data text-on-surface group-hover:text-primary-fixed transition-colors duration-500">4.240%</span>
+<span class="text-mono-label font-mono-label text-error">-0.012</span>
+</div>
+</div>
+<div class="p-10 group hover:bg-white/[0.03] transition-colors min-w-[340px] cursor-crosshair">
+<span class="text-mono-label font-mono-label uppercase text-on-surface-variant mb-5 block">LUXURY INDEX</span>
+<div class="flex items-baseline gap-3">
+<span class="text-terminal-data font-terminal-data text-on-surface group-hover:text-primary-fixed transition-colors duration-500">122.4</span>
+<span class="text-mono-label font-mono-label text-primary">+0.4</span>
+</div>
+</div>
+</div>
+<!-- Duplicate Set for Seamless Loop -->
+<div class="flex divide-x divide-white/5">
+<div class="p-10 group hover:bg-white/[0.03] transition-colors min-w-[340px] cursor-crosshair">
+<span class="text-mono-label font-mono-label uppercase text-on-surface-variant mb-5 block">15Y FIXED LUXURY</span>
+<div class="flex items-baseline gap-3">
+<span class="text-terminal-data font-terminal-data text-on-surface group-hover:text-primary-fixed transition-colors duration-500">4.625%</span>
+<span class="text-mono-label font-mono-label text-error">-0.010</span>
+</div>
+</div>
+<div class="p-10 group hover:bg-white/[0.03] transition-colors min-w-[340px] cursor-crosshair">
+<span class="text-mono-label font-mono-label uppercase text-on-surface-variant mb-5 block">JUMBO ARM ASSET-BACK</span>
+<div class="flex items-baseline gap-3">
+<span class="text-terminal-data font-terminal-data text-on-surface group-hover:text-primary-fixed transition-colors duration-500">4.875%</span>
+<span class="text-mono-label font-mono-label text-on-surface-variant/40 uppercase">UNCH</span>
+</div>
+</div>
+<div class="p-10 group hover:bg-white/[0.03] transition-colors min-w-[340px] cursor-crosshair">
+<span class="text-mono-label font-mono-label uppercase text-on-surface-variant mb-5 block">PORTFOLIO LIQUIDITY</span>
+<div class="flex items-baseline gap-3">
+<span class="text-terminal-data font-terminal-data text-on-surface group-hover:text-primary-fixed transition-colors duration-500">SOFR+1.20%</span>
+<span class="text-mono-label font-mono-label text-primary">+0.005</span>
+</div>
+</div>
+<div class="p-10 group hover:bg-white/[0.03] transition-colors min-w-[340px] cursor-crosshair">
+<span class="text-mono-label font-mono-label uppercase text-on-surface-variant mb-5 block">UST 10Y YIELD</span>
+<div class="flex items-baseline gap-3">
+<span class="text-terminal-data font-terminal-data text-on-surface group-hover:text-primary-fixed transition-colors duration-500">4.240%</span>
+<span class="text-mono-label font-mono-label text-error">-0.012</span>
+</div>
+</div>
+<div class="p-10 group hover:bg-white/[0.03] transition-colors min-w-[340px] cursor-crosshair">
+<span class="text-mono-label font-mono-label uppercase text-on-surface-variant mb-5 block">LUXURY INDEX</span>
+<div class="flex items-baseline gap-3">
+<span class="text-terminal-data font-terminal-data text-on-surface group-hover:text-primary-fixed transition-colors duration-500">122.4</span>
+<span class="text-mono-label font-mono-label text-primary">+0.4</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- MARKET PRECISION -->
+<section id="market-precision" class="py-40 px-margin-edge border-y border-white/5 relative overflow-hidden">
+<div class="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-primary/5 to-transparent pointer-events-none"></div>
+<div class="flex flex-col md:flex-row justify-between mb-28 relative z-10">
+<div>
+<h2 class="text-headline-md font-headline-md mb-3 tracking-tight">Market Precision</h2>
+<p class="text-body-md font-body-md text-on-surface-variant opacity-70">Preferential rates for qualified institutional portfolios, updated in real-time.</p>
+</div>
+<div class="mt-8 md:mt-0">
+<span class="text-mono-label font-mono-label text-on-surface-variant/60 uppercase tracking-[0.3em]">INSTITUTIONAL TERMINAL V2.4</span>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-20 relative z-10">
+<!-- Rate 1 -->
+<div class="pl-8 py-6 border-l border-white/10 hover:border-primary-fixed transition-all duration-700 group cursor-default">
+<span class="text-mono-label font-mono-label text-on-surface-variant uppercase mb-10 block tracking-widest">30-YEAR FIXED HIGH-VALUE</span>
+<div class="flex items-baseline gap-2 mb-6">
+<span class="animate-number text-[72px] font-terminal-data leading-none text-on-surface group-hover:text-primary-fixed transition-colors duration-700" data-target="5.125">0.000</span>
+<span class="text-headline-sm font-terminal-data text-primary-fixed opacity-60">%</span>
+</div>
+<div class="flex justify-between items-center text-mono-label font-mono-label text-on-surface-variant/50 uppercase tracking-widest">
+<span class="">APR: 5.210%</span>
+<span class="flex items-center gap-2"><span class="w-1 h-1 bg-primary-fixed rounded-full"></span> $1.5M MIN.</span>
+</div>
+</div>
+<!-- Rate 2 -->
+<div class="pl-8 py-6 border-l border-white/10 hover:border-primary-fixed transition-all duration-700 group cursor-default">
+<span class="text-mono-label font-mono-label text-on-surface-variant uppercase mb-10 block tracking-widest">15-YEAR FIXED LUXURY</span>
+<div class="flex items-baseline gap-2 mb-6">
+<span class="animate-number text-[72px] font-terminal-data leading-none text-on-surface group-hover:text-primary-fixed transition-colors duration-700" data-target="4.625">0.000</span>
+<span class="text-headline-sm font-terminal-data text-primary-fixed opacity-60">%</span>
+</div>
+<div class="flex justify-between items-center text-mono-label font-mono-label text-on-surface-variant/50 uppercase tracking-widest">
+<span class="">APR: 4.690%</span>
+<span class="flex items-center gap-2"><span class="w-1 h-1 bg-primary-fixed rounded-full"></span> $1.0M MIN.</span>
+</div>
+</div>
+<!-- Rate 3 -->
+<div class="pl-8 py-6 border-l border-white/10 hover:border-primary-fixed transition-all duration-700 group cursor-default">
+<span class="text-mono-label font-mono-label text-on-surface-variant uppercase mb-10 block tracking-widest">7/1 ADJUSTABLE PREFERRED</span>
+<div class="flex items-baseline gap-2 mb-6">
+<span class="animate-number text-[72px] font-terminal-data leading-none text-on-surface group-hover:text-primary-fixed transition-colors duration-700" data-target="4.875">0.000</span>
+<span class="text-headline-sm font-terminal-data text-primary-fixed opacity-60">%</span>
+</div>
+<div class="flex justify-between items-center text-mono-label font-mono-label text-on-surface-variant/50 uppercase tracking-widest">
+<span class="">APR: 5.150%</span>
+<span class="flex items-center gap-2"><span class="w-1 h-1 bg-primary-fixed rounded-full"></span> INSTIT. ONLY</span>
+</div>
+</div>
+</div>
+</section>
+<!-- ABOUT SECTION -->
+<section class="px-margin-edge py-section-gap bg-background">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-24 lg:gap-32 items-center">
+<!-- Image Column -->
+<div class="lg:col-span-5">
+<div class="relative aspect-[4/5] overflow-hidden border border-white/10 grayscale-[0.8] hover:grayscale-0 transition-all duration-1000 group">
+<div class="absolute inset-0 bg-primary/10 mix-blend-overlay group-hover:bg-transparent transition-all duration-1000"></div>
+<img alt="Marcus Vane" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000" src="assets/WhatsApp%20Image%202026-07-23%20at%2001.10.02-modified.jpeg"/>
+<div class="absolute bottom-0 left-0 w-full p-8 bg-gradient-to-t from-background/90 to-transparent">
+<span class="text-label-caps font-label-caps text-on-surface tracking-widest text-[10px]">DIRECTOR OF ADVISORY</span>
+</div>
+</div>
+</div>
+<!-- Text Column -->
+<div class="lg:col-span-7 flex flex-col gap-4">
+<div>
+<h2 class="text-headline-md font-headline-md mb-8 tracking-tight">The Visionary Behind Mangukiya Reserve</h2>
+<div class="h-px w-20 bg-primary-fixed/40 mb-12"></div>
+<p class="text-body-lg font-body-lg text-on-surface mb-10 leading-loose">
+          Marcus Vane brings over two decades of specialized expertise in the luxury mortgage sector, orchestrating over $4B in bespoke lending solutions for the world’s most discerning families.
+        </p>
+<p class="text-body-md font-body-md text-on-surface-variant opacity-70 leading-loose">
+          His approach combines institutional rigor with the personalized touch of a private family office, ensuring that every acquisition is a strategic pillar of your broader wealth management legacy.
+        </p>
+</div>
+<div class="pt-4 border-t border-white/5 relative">
+<blockquote class="signature-quote italic text-[28px] md:text-[32px] font-display-lg text-primary-fixed-dim leading-normal mb-10 relative block">
+          "Our mission is to safeguard your legacy through technical precision lending and absolute institutional discretion."
+        </blockquote>
+
+</div>
+</div>
+</div>
+</section>
+<!-- SERVICES SECTION -->
+<section class="px-margin-edge pt-32 lg:pt-48 mb-section-gap">
+<div class="flex flex-col items-center text-center mb-20 gap-8">
+<div>
+<h2 class="text-headline-md font-headline-md mb-5 tracking-tight italic">Architected for Legacy</h2>
+<p class="text-body-md font-body-md text-on-surface-variant max-w-xl mx-auto opacity-70">
+          Multi-generational wealth requires more than simple credit. Our structures are designed to optimize liquidity while preserving capital autonomy across global jurisdictions.
+        </p>
+</div>
+<div>
+<a class="text-label-caps font-label-caps text-on-surface-variant hover:text-primary-fixed tracking-[0.2em] group transition-all inline-block" href="#">
+        VIEW ALL STRUCTURES
+        <span class="block h-px w-0 bg-primary-fixed group-hover:w-full transition-all duration-500 mt-2 mx-auto"></span>
+</a>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+<!-- Card 1 -->
+<div class="group relative aspect-[16/9] overflow-hidden border border-white/10 cursor-pointer">
+<div class="absolute inset-0 grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-[1.5s] bg-cover bg-center" style="background-image: url('assets/aerial-shot-aria-hotel-las-vegas_181624-42881.avif')">
+</div>
+<div class="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent opacity-90 group-hover:opacity-70 transition-opacity duration-700"></div>
+<div class="absolute bottom-0 left-0 p-12 w-full transform translate-y-4 group-hover:translate-y-0 transition-transform duration-700">
+<span class="text-mono-label font-mono-label text-primary-fixed mb-5 block tracking-[0.3em] text-[9px]">FINANCE // 01</span>
+<h3 class="text-headline-sm font-headline-sm mb-5 tracking-tight group-hover:text-primary-fixed transition-colors duration-500">Comprehensive Loans</h3>
+<p class="text-body-md font-body-md text-on-surface-variant/80 max-w-md opacity-0 group-hover:opacity-100 transition-all duration-700 delay-100">
+            Housing (Min 10 Lakhs), Machinery, and Project Finance tailored to your needs.
+          </p>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="group relative aspect-[16/9] overflow-hidden border border-white/10 cursor-pointer">
+<div class="absolute inset-0 grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-[1.5s] bg-cover bg-center" style="background-image: url('assets/modern-warm-cosy-library-shelves-full-books-beautiful-lamps-picture-was-shot-library-court-179913176.webp')">
+</div>
+<div class="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent opacity-90 group-hover:opacity-70 transition-opacity duration-700"></div>
+<div class="absolute bottom-0 left-0 p-12 w-full transform translate-y-4 group-hover:translate-y-0 transition-transform duration-700">
+<span class="text-mono-label font-mono-label text-primary-fixed mb-5 block tracking-[0.3em] text-[9px]">TAX & ADVISORY // 02</span>
+<h3 class="text-headline-sm font-headline-sm mb-5 tracking-tight group-hover:text-primary-fixed transition-colors duration-500">Tax & Accounting</h3>
+<p class="text-body-md font-body-md text-on-surface-variant/80 max-w-md opacity-0 group-hover:opacity-100 transition-all duration-700 delay-100">
+            Expert Income-tax Returns, GST Returns, and full Accounting services.
+          </p>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="group relative aspect-[16/9] overflow-hidden border border-white/10 cursor-pointer">
+<div class="absolute inset-0 grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-[1.5s] bg-cover bg-center" style="background-image: url('assets/photo-1445019980597-93fa8acb246c.avif')">
+</div>
+<div class="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent opacity-90 group-hover:opacity-70 transition-opacity duration-700"></div>
+<div class="absolute bottom-0 left-0 p-12 w-full transform translate-y-4 group-hover:translate-y-0 transition-transform duration-700">
+<span class="text-mono-label font-mono-label text-primary-fixed mb-5 block tracking-[0.3em] text-[9px]">LEGAL // 03</span>
+<h3 class="text-headline-sm font-headline-sm mb-5 tracking-tight group-hover:text-primary-fixed transition-colors duration-500">Property & Legal</h3>
+<p class="text-body-md font-body-md text-on-surface-variant/80 max-w-md opacity-0 group-hover:opacity-100 transition-all duration-700 delay-100">
+            Satakhat, Sale-deed preparation, Mortgage, Release, and Rent Agreements.
+          </p>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="group relative aspect-[16/9] overflow-hidden border border-white/10 cursor-pointer">
+<div class="absolute inset-0 grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-[1.5s] bg-cover bg-center" style="background-image: url('assets/photo-1522255272218-7ac5249be344.avif')">
+</div>
+<div class="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent opacity-90 group-hover:opacity-70 transition-opacity duration-700"></div>
+<div class="absolute bottom-0 left-0 p-12 w-full transform translate-y-4 group-hover:translate-y-0 transition-transform duration-700">
+<span class="text-mono-label font-mono-label text-primary-fixed mb-5 block tracking-[0.3em] text-[9px]">WEALTH // 04</span>
+<h3 class="text-headline-sm font-headline-sm mb-5 tracking-tight group-hover:text-primary-fixed transition-colors duration-500">Wealth & Protection</h3>
+<p class="text-body-md font-body-md text-on-surface-variant/80 max-w-md opacity-0 group-hover:opacity-100 transition-all duration-700 delay-100">
+            Health & Life Insurance with genuine claim settlement. Mutual Funds & SIPs.
+          </p>
+</div>
+</div>
+</div>
+</section>
+
+<!-- USP & PARTNERS SECTION -->
+<section class="py-32 px-margin-edge border-t border-white/5 bg-surface-container-lowest text-center">
+<div class="max-w-4xl mx-auto mb-20">
+  <span class="text-primary-fixed uppercase tracking-[0.2em] text-sm font-bold mb-4 block">Our Philosophy</span>
+  <h2 class="text-4xl md:text-5xl font-serif italic text-on-surface mb-6">"Nothing is impossible."</h2>
+  <p class="text-on-surface-variant opacity-80 text-lg">We pride ourselves on genuine claim settlements and securing finance where others see barriers.</p>
+</div>
+
+<div class="overflow-hidden relative flex flex-col gap-8 opacity-50 py-10 border-t border-white/5">
+  <div class="text-label-caps tracking-[0.2em] mb-4 text-on-surface-variant">OUR TRUSTED NETWORK</div>
+  <div class="flex animate-ticker whitespace-nowrap gap-16 items-center">
+    <span class="text-xl font-serif tracking-wide">Indian Overseas Bank</span>
+    <span class="text-xl font-serif tracking-wide">Canara Bank</span>
+    <span class="text-xl font-serif tracking-wide">Bank of Baroda</span>
+    <span class="text-xl font-serif tracking-wide">Bank of India</span>
+    <span class="text-xl font-serif tracking-wide">Union Bank of India</span>
+    <span class="text-xl font-serif tracking-wide">Central Bank of India</span>
+    <span class="text-xl font-serif tracking-wide">Aditya Birla Health Insurance</span>
+    <span class="text-xl font-serif tracking-wide">Kotak Life Insurance</span>
+    <!-- Duplicate for seamless loop -->
+    <span class="text-xl font-serif tracking-wide">Indian Overseas Bank</span>
+    <span class="text-xl font-serif tracking-wide">Canara Bank</span>
+    <span class="text-xl font-serif tracking-wide">Bank of Baroda</span>
+    <span class="text-xl font-serif tracking-wide">Bank of India</span>
+    <span class="text-xl font-serif tracking-wide">Union Bank of India</span>
+    <span class="text-xl font-serif tracking-wide">Central Bank of India</span>
+    <span class="text-xl font-serif tracking-wide">Aditya Birla Health Insurance</span>
+    <span class="text-xl font-serif tracking-wide">Kotak Life Insurance</span>
+  </div>
+</div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="py-32 md:py-48 px-6 text-center flex flex-col items-center justify-center gap-8 border-t border-white/5 relative overflow-hidden">
+<div class="absolute inset-0 opacity-20 pointer-events-none" style="background: radial-gradient(circle at center, rgba(159,209,193,0.15) 0%, transparent 70%);"></div>
+<h2 class="text-4xl md:text-5xl lg:text-6xl font-serif italic relative z-10 leading-tight m-0 p-0 text-on-surface">Ready to Secure Your Legacy?</h2>
+<p class="text-lg md:text-xl font-light text-on-surface-variant max-w-2xl opacity-80 relative z-10 leading-relaxed m-0 p-0">
+      Connect with an Executive Relationship Manager for a private, confidential discussion regarding your portfolio requirements.
+    </p>
+<button class="mt-4 bg-primary-fixed text-on-primary-fixed px-12 py-5 font-bold tracking-[0.2em] text-sm flex items-center gap-4 hover:bg-on-surface hover:text-background transition-all duration-500 hover:scale-105 relative z-10 group shadow-2xl">
+      SPEAK WITH AN ADVISOR
+      <span class="material-symbols-outlined transform group-hover:translate-x-2 transition-transform" data-icon="arrow_right_alt">arrow_right_alt</span>
+</button>
+</section>
+<!-- FOOTER -->
+<footer class="w-full py-16 px-terminal-padding border-t border-white/5 bg-surface-container-lowest">
+<div class="flex flex-col md:flex-row justify-between items-center gap-12 max-w-[1600px] mx-auto">
+<div class="flex items-center gap-5">
+<svg class="w-6 h-6 text-on-surface-variant/80 cursor-pointer hover:rotate-180 transition-transform duration-700" viewBox="0 0 24 24" fill="currentColor">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M12 0L14.5 9.5L24 12L14.5 14.5L12 24L9.5 14.5L0 12L9.5 9.5L12 0ZM12 14C13.1046 14 14 13.1046 14 12C14 10.8954 13.1046 10 12 10C10.8954 10 10 10.8954 10 12C10 13.1046 10.8954 14 12 14Z" />
+</svg>
+<span class="text-label-caps font-label-caps font-bold text-on-surface uppercase tracking-[0.25em]">MANGUKIYA RESERVE</span>
+</div>
+<div class="flex flex-wrap justify-center gap-10">
+<a class="text-label-caps font-label-caps text-on-surface-variant hover:text-primary-fixed transition-all text-[10px]" href="#">Privacy Policy</a>
+<a class="text-label-caps font-label-caps text-on-surface-variant hover:text-primary-fixed transition-all text-[10px]" href="#">Institutional Terms</a>
+<a class="text-label-caps font-label-caps text-on-surface-variant hover:text-primary-fixed transition-all text-[10px]" href="#">Disclosures</a>
+<a class="text-label-caps font-label-caps text-on-surface-variant hover:text-primary-fixed transition-all text-[10px]" href="#">Contact Advisor</a>
+</div>
+<p class="text-label-caps font-label-caps text-on-surface-variant/40 text-[9px] tracking-widest text-center md:text-right">
+      © 2024 Mangukiya Reserve Institutional. <br class="md:hidden"/> Absolute discretion guaranteed.
+    </p>
+</div>
+</footer>
+<script>
+    // Live Terminal Clock Logic
+    function updateClock() {
+      const now = new Date();
+      const options = { 
+        timeZone: 'UTC', 
+        hour12: false, 
+        hour: '2-digit', 
+        minute: '2-digit', 
+        second: '2-digit' 
+      };
+      const timeString = now.toLocaleTimeString('en-US', options);
+      const clockElement = document.getElementById('utc-clock');
+      if(clockElement) clockElement.textContent = `UTC-0 ${timeString}`;
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // Subtle parallax effect on scroll for headlines
+    window.addEventListener('scroll', () => {
+      const scrolled = window.pageYOffset;
+      const displays = document.querySelectorAll('.font-display-lg');
+      displays.forEach(display => {
+        const speed = 0.05;
+        // Check if element is in view to avoid performance hits
+        const rect = display.getBoundingClientRect();
+        if (rect.top < window.innerHeight && rect.bottom > 0) {
+           display.style.transform = `translateY(${scrolled * speed}px)`;
+        }
+      });
+    });
+  </script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.5
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const el = entry.target;
+                    const target = parseFloat(el.getAttribute('data-target'));
+                    const duration = 2000;
+                    const startTime = performance.now();
+                    
+                    function animateNumber(currentTime) {
+                        const elapsed = currentTime - startTime;
+                        const progress = Math.min(elapsed / duration, 1);
+                        const easeProgress = 1 - Math.pow(1 - progress, 3);
+                        const current = (easeProgress * target).toFixed(3);
+                        el.textContent = current;
+                        
+                        if (progress < 1) {
+                            requestAnimationFrame(animateNumber);
+                        } else {
+                            el.textContent = target.toFixed(3);
+                        }
+                    }
+                    
+                    requestAnimationFrame(animateNumber);
+                    observer.unobserve(el);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.animate-number').forEach(el => observer.observe(el));
+    });
+</script>
+
+<script>
+    function toggleMegaMenu() {
+        const menu = document.getElementById('megaMenu');
+        if (menu.classList.contains('invisible')) {
+            menu.classList.remove('invisible', 'opacity-0', 'mt-8');
+            menu.classList.add('opacity-100', 'mt-6');
+        } else {
+            menu.classList.add('invisible', 'opacity-0', 'mt-8');
+            menu.classList.remove('opacity-100', 'mt-6');
+        }
+    }
+    
+    // Close menu when clicking outside
+    document.addEventListener('click', function(event) {
+        const menu = document.getElementById('megaMenu');
+        const isClickInside = menu.contains(event.target) || (event.target.innerText && event.target.innerText.includes('LOAN TYPES'));
+        if (!isClickInside && !menu.classList.contains('invisible')) {
+            menu.classList.add('invisible', 'opacity-0', 'mt-8');
+            menu.classList.remove('opacity-100', 'mt-6');
+        }
+    });
+</script>
+</body></html>

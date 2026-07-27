@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>My Loans | Reserve Portal</title>
+
+    <!-- Material Symbols -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&amp;family=Playfair+Display:ital,wght@0,600;0,700;1,600;1,700&amp;family=Manrope:wght@300;400;600;700&amp;display=swap" rel="stylesheet"/>
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#baeddd",
+                        "primary-fixed": "#baeddc",
+                        "background": "#050505",
+                        "surface": "#121212",
+                        "on-surface": "#f5f3f2",
+                        "on-surface-variant": "#a3aaa6",
+                    },
+                    fontFamily: {
+                        "serif": ["Playfair Display"],
+                        "sans": ["Manrope"],
+                        "mono": ["JetBrains Mono"]
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #050505;
+            color: #f5f3f2;
+            -webkit-font-smoothing: antialiased;
+        }
+        .sidebar-link {
+            transition: all 0.3s ease;
+        }
+        .sidebar-link:hover, .sidebar-link.active {
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            border-left: 2px solid #fff;
+        }
+        .glass-card {
+            background: rgba(18, 18, 18, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+        .glass-card:hover {
+            transform: translateY(-2px);
+            border-color: rgba(186, 237, 220, 0.2);
+        }
+    </style>
+</head>
+<body class="font-sans min-h-screen flex bg-background">
+
+    <!-- Sidebar -->
+    <aside class="w-72 border-r border-white/5 bg-surface/50 flex flex-col hidden lg:flex">
+        <div class="p-8 border-b border-white/5">
+            <a href="index.html" class="flex items-center gap-4 group">
+                <svg class="w-6 h-6 text-primary-fixed group-hover:rotate-180 transition-transform duration-700" viewBox="0 0 24 24" fill="currentColor">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M12 0L14.5 9.5L24 12L14.5 14.5L12 24L9.5 14.5L0 12L9.5 9.5L12 0ZM12 14C13.1046 14 14 13.1046 14 12C14 10.8954 13.1046 10 12 10C10.8954 10 10 10.8954 10 12C10 13.1046 10.8954 14 12 14Z" />
+                </svg>
+                <span class="text-sm font-serif tracking-widest uppercase">Reserve Portal</span>
+            </a>
+        </div>
+        
+        <nav class="flex-grow py-8 flex flex-col gap-2">
+            <a href="dashboard.html" class="sidebar-link flex items-center gap-4 px-8 py-3 text-sm tracking-wide text-on-surface-variant">
+                <span class="material-symbols-outlined text-[20px]">dashboard</span>
+                Overview
+            </a>
+            <a href="my-loans.html" class="sidebar-link active flex items-center gap-4 px-8 py-3 text-sm tracking-wide text-on-surface">
+                <span class="material-symbols-outlined text-[20px]">account_balance</span>
+                My Loans
+            </a>
+            <a href="playground.html" class="sidebar-link flex items-center gap-4 px-8 py-3 text-sm tracking-wide text-on-surface-variant">
+                <span class="material-symbols-outlined text-[20px]">checklist</span>
+                Playground
+            </a>
+            <a href="insurance.html" class="sidebar-link flex items-center gap-4 px-8 py-3 text-sm tracking-wide text-on-surface-variant">
+                <span class="material-symbols-outlined text-[20px]">shield_person</span>
+                Insurance & Wealth
+            </a>
+        </nav>
+
+        <div class="p-8 border-t border-white/5">
+            <a href="#" onclick="logout()" class="flex items-center gap-3 text-xs tracking-widest uppercase text-on-surface-variant hover:text-white transition-colors">
+                <span class="material-symbols-outlined text-[16px]">logout</span>
+                Sign Out
+            </a>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-grow flex flex-col relative overflow-hidden h-screen">
+        
+        <!-- Header -->
+        <header class="h-24 border-b border-white/5 flex items-center justify-between px-12 shrink-0">
+            <div>
+                <p class="text-xs uppercase tracking-widest text-on-surface-variant mb-1">Portfolio</p>
+                <h1 class="text-2xl font-serif">My Loans</h1>
+            </div>
+            
+            <div class="flex items-center gap-6">
+                <a href="apply.html" class="bg-primary-fixed text-[#00382d] text-sm font-bold tracking-wider px-6 py-2.5 hover:bg-white transition-colors flex items-center gap-2">
+                    <span class="material-symbols-outlined text-[18px]">add</span>
+                    New Application
+                </a>
+                <div class="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-sm font-serif bg-surface text-primary-fixed">
+                    <span id="userInitial">U</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Body -->
+        <div class="p-12 flex-grow overflow-y-auto">
+            
+            <div id="loansGrid" class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+                <!-- Populated by JS -->
+                <div class="col-span-full py-10 text-center text-on-surface-variant">
+                    <span class="material-symbols-outlined text-4xl mb-3 opacity-50 text-white animate-pulse">hourglass_empty</span>
+                    <p>Loading your portfolio...</p>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        const userEmail = localStorage.getItem('userEmail');
+        
+        if (!userEmail) {
+            window.location.href = 'login.html';
+        } else {
+            document.getElementById('userInitial').textContent = userEmail.charAt(0).toUpperCase();
+            fetchLoans();
+        }
+
+        function logout() {
+            localStorage.removeItem('userEmail');
+            window.location.href = 'login.html';
+        }
+
+        function getStatusColor(status) {
+            if (status === 'Done') return 'text-primary-fixed bg-primary-fixed/10 border-primary-fixed/20';
+            if (status === 'Ongoing') return 'text-blue-400 bg-blue-400/10 border-blue-400/20';
+            return 'text-yellow-500 bg-yellow-500/10 border-yellow-500/20';
+        }
+
+        async function fetchLoans() {
+            try {
+                const res = await fetch(`/api/user/inquiries?email=${encodeURIComponent(userEmail)}`);
+                const allData = await res.json();
+                
+                // Filter out Insurance for the Loans page
+                const data = allData.filter(loan => !loan.facility_type.includes('Insurance'));
+                
+                const grid = document.getElementById('loansGrid');
+                grid.innerHTML = '';
+
+                if (data.length === 0) {
+                    grid.innerHTML = `
+                        <div class="col-span-full py-20 text-center">
+                            <span class="material-symbols-outlined text-6xl text-white/5 mb-4">folder_off</span>
+                            <h3 class="text-xl font-serif text-white/40 mb-2">No Active Loans</h3>
+                            <p class="text-sm text-on-surface-variant max-w-md mx-auto mb-6">You haven't applied for any facilities yet. Start a new application to explore your financing options.</p>
+                            <a href="apply.html" class="inline-block border border-primary-fixed/50 text-primary-fixed text-xs uppercase tracking-widest px-6 py-3 hover:bg-primary-fixed hover:text-black transition-colors">Apply Now</a>
+                        </div>
+                    `;
+                    return;
+                }
+
+                data.forEach(loan => {
+                    const card = document.createElement('div');
+                    card.className = 'glass-card p-6 flex flex-col h-full rounded-sm';
+                    
+                    const date = new Date(loan.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+                    const formattedAmount = loan.amount ? new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(loan.amount) : 'TBD';
+
+                    card.innerHTML = `
+                        <div class="flex justify-between items-start mb-6">
+                            <div>
+                                <span class="text-[10px] text-on-surface-variant uppercase tracking-widest block mb-1">Facility Type</span>
+                                <h3 class="text-lg font-serif text-white">${loan.facility_type}</h3>
+                            </div>
+                            <span class="text-[10px] uppercase font-bold tracking-wider px-2.5 py-1 rounded border ${getStatusColor(loan.status)}">
+                                ${loan.status}
+                            </span>
+                        </div>
+
+                        <div class="mt-auto pt-6 border-t border-white/5 flex justify-between items-end">
+                            <div>
+                                <span class="text-[10px] text-on-surface-variant uppercase tracking-widest block mb-1">Requested Amount</span>
+                                <p class="text-xl font-mono text-primary-fixed">${formattedAmount}</p>
+                            </div>
+                            <div class="text-right">
+                                <span class="text-[10px] text-on-surface-variant uppercase tracking-widest block mb-1">Applied On</span>
+                                <p class="text-xs text-white">${date}</p>
+                            </div>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                });
+
+            } catch (err) {
+                console.error('Failed to load loans:', err);
+                document.getElementById('loansGrid').innerHTML = '<div class="col-span-full py-10 text-center text-red-400">Failed to load portfolio data.</div>';
+            }
+        }
+    </script>
+</body>
+</html>

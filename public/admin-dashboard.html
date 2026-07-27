@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Admin Portal | Mangukiya Reserve</title>
+
+    <!-- Material Symbols -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&amp;family=Playfair+Display:ital,wght@0,600;0,700;1,600;1,700&amp;family=Manrope:wght@300;400;600;700&amp;display=swap" rel="stylesheet"/>
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#baeddd",
+                        "primary-fixed": "#baeddc",
+                        "background": "#050505",
+                        "surface": "#121212",
+                        "on-surface": "#f5f3f2",
+                        "on-surface-variant": "#a3aaa6",
+                    },
+                    fontFamily: {
+                        "serif": ["Playfair Display"],
+                        "sans": ["Manrope"],
+                        "mono": ["JetBrains Mono"]
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #050505;
+            color: #f5f3f2;
+            -webkit-font-smoothing: antialiased;
+        }
+        .glass-panel {
+            background: rgba(18, 18, 18, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .sidebar-link {
+            transition: all 0.3s ease;
+        }
+        .sidebar-link:hover, .sidebar-link.active {
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            border-left: 2px solid #fff;
+        }
+    </style>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="font-sans min-h-screen flex bg-background">
+
+    <!-- Sidebar -->
+    <aside class="w-64 border-r border-white/5 bg-[#0a0a0a] flex flex-col hidden lg:flex shrink-0">
+        <div class="p-8 border-b border-white/5">
+            <div class="flex items-center gap-3">
+                <svg class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="currentColor">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M12 0L14.5 9.5L24 12L14.5 14.5L12 24L9.5 14.5L0 12L9.5 9.5L12 0ZM12 14C13.1046 14 14 13.1046 14 12C14 10.8954 13.1046 10 12 10C10.8954 10 10 10.8954 10 12C10 13.1046 10.8954 14 12 14Z" />
+                </svg>
+                <span class="text-sm font-serif tracking-widest uppercase">Admin System</span>
+            </div>
+        </div>
+        
+        <nav class="flex-grow py-6 flex flex-col gap-1">
+            <a href="#" class="sidebar-link active flex items-center gap-4 px-8 py-3 text-sm tracking-wide text-on-surface">
+                <span class="material-symbols-outlined text-[20px]">bar_chart</span>
+                Dashboard
+            </a>
+            <a href="admin-inquiries.html" class="sidebar-link flex items-center gap-4 px-8 py-3 text-sm tracking-wide text-on-surface-variant">
+                <span class="material-symbols-outlined text-[20px]">inbox</span>
+                Inquiries
+                <span id="sidebarInquiriesCount" class="ml-auto bg-primary-fixed text-[#00382d] text-[10px] font-bold px-2 py-0.5 rounded-full">0</span>
+            </a>
+            <a href="admin-playground.html" class="sidebar-link flex items-center gap-4 px-8 py-3 text-sm tracking-wide text-on-surface-variant">
+                <span class="material-symbols-outlined text-[20px]">checklist</span>
+                Playground
+            </a>
+        </nav>
+
+        <div class="p-8 border-t border-white/5">
+            <a href="admin-login.html" class="flex items-center gap-3 text-xs tracking-widest uppercase text-on-surface-variant hover:text-red-400 transition-colors">
+                <span class="material-symbols-outlined text-[16px]">logout</span>
+                Secure Logout
+            </a>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-grow flex flex-col relative overflow-hidden h-screen">
+        
+        <!-- Top Header -->
+        <header class="h-20 border-b border-white/5 flex items-center justify-between px-10 shrink-0 bg-surface/50 backdrop-blur-md z-10">
+            <div>
+                <h2 class="text-lg font-serif">Command Center</h2>
+            </div>
+            <div class="flex items-center gap-4">
+                <div class="text-right">
+                    <p class="text-xs text-on-surface">System Admin</p>
+                    <p class="text-[10px] text-primary-fixed font-mono">AUTHORIZED</p>
+                </div>
+                <div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center border border-white/20">
+                    <span class="material-symbols-outlined text-[20px]">shield_person</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Dashboard Body -->
+        <div class="p-10 flex-grow overflow-y-auto">
+            
+            <!-- Key Metrics -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <div class="glass-panel p-6 rounded-xl border-l-2 border-l-primary-fixed">
+                    <p class="text-xs tracking-widest text-on-surface-variant uppercase mb-2">Inquiries Today</p>
+                    <div class="flex items-end gap-3">
+                        <h3 id="inquiriesToday" class="text-3xl font-mono text-white">0</h3>
+                        <p class="text-xs text-primary-fixed mb-1 flex items-center"><span class="material-symbols-outlined text-[14px]">trending_up</span> live data</p>
+                    </div>
+                </div>
+                
+                <div class="glass-panel p-6 rounded-xl">
+                    <p class="text-xs tracking-widest text-on-surface-variant uppercase mb-2">Inquiries Yesterday</p>
+                    <div class="flex items-end gap-3">
+                        <h3 id="inquiriesYesterday" class="text-3xl font-mono text-white">0</h3>
+                    </div>
+                </div>
+
+                <div class="glass-panel p-6 rounded-xl">
+                    <p class="text-xs tracking-widest text-on-surface-variant uppercase mb-2">Active Approvals</p>
+                    <div class="flex items-end gap-3">
+                        <h3 id="activeApprovals" class="text-3xl font-mono text-white">0</h3>
+                        <p class="text-xs text-on-surface-variant mb-1">Total inquiries</p>
+                    </div>
+                </div>
+
+                <div class="glass-panel p-6 rounded-xl border-l-2 border-l-white">
+                    <p class="text-xs tracking-widest text-on-surface-variant uppercase mb-2">Total Disbursed (MTD)</p>
+                    <div class="flex items-end gap-3">
+                        <h3 id="totalDisbursed" class="text-3xl font-mono text-white">₹ 42.5 Cr</h3>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts Section -->
+            <div class="glass-panel p-8 rounded-xl mb-8">
+                <h3 class="text-sm tracking-widest text-on-surface-variant uppercase mb-6">Inquiry Volume (Last 7 Days)</h3>
+                <div class="w-full h-[300px]">
+                    <canvas id="inquiryChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Recent Inquiries Table -->
+            <div class="glass-panel rounded-xl overflow-hidden">
+                <div class="p-6 border-b border-white/5 flex justify-between items-center bg-white/[0.01]">
+                    <h3 class="text-sm tracking-widest text-white uppercase">Recent Applications & Inquiries</h3>
+                    <button class="text-xs font-mono tracking-widest text-primary-fixed hover:text-white transition-colors">VIEW ALL INQUIRIES</button>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="border-b border-white/5">
+                                <th class="p-5 text-xs tracking-widest font-normal text-on-surface-variant uppercase">Client Name</th>
+                                <th class="p-5 text-xs tracking-widest font-normal text-on-surface-variant uppercase">Phone / Email</th>
+                                <th class="p-5 text-xs tracking-widest font-normal text-on-surface-variant uppercase">Facility Type</th>
+                                <th class="p-5 text-xs tracking-widest font-normal text-on-surface-variant uppercase">Requirement</th>
+                                <th class="p-5 text-xs tracking-widest font-normal text-on-surface-variant uppercase">Date</th>
+                                <th class="p-5 text-xs tracking-widest font-normal text-on-surface-variant uppercase text-right">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recentInquiriesBody" class="text-sm">
+                            <!-- Populated dynamically via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Script to fetch and render data -->
+    <script>
+        async function fetchDashboardData() {
+            try {
+                const res = await fetch('/api/admin/dashboard');
+                const data = await res.json();
+                
+                document.getElementById('inquiriesToday').textContent = data.inquiriesToday;
+                document.getElementById('inquiriesYesterday').textContent = data.inquiriesYesterday;
+                document.getElementById('activeApprovals').textContent = data.totalInquiries;
+                document.getElementById('sidebarInquiriesCount').textContent = data.totalInquiries;
+                
+                const tbody = document.getElementById('recentInquiriesBody');
+                tbody.innerHTML = ''; // clear loading state
+                
+                if (data.recentInquiries.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="6" class="p-5 text-center text-on-surface-variant">No inquiries found yet.</td></tr>';
+                }
+                
+                data.recentInquiries.forEach(inq => {
+                    const tr = document.createElement('tr');
+                    tr.className = 'border-b border-white/5 hover:bg-white/[0.02] transition-colors';
+                    tr.innerHTML = `
+                        <td class="p-5 font-serif text-white">${inq.first_name} ${inq.last_name}</td>
+                        <td class="p-5">
+                            <div class="font-mono text-white">${inq.mobile_number}</div>
+                            <div class="text-[10px] text-on-surface-variant">${inq.email}</div>
+                        </td>
+                        <td class="p-5 text-on-surface-variant">${inq.facility_type}</td>
+                        <td class="p-5 font-mono text-primary-fixed">${inq.amount || 'N/A'}</td>
+                        <td class="p-5 text-on-surface-variant">${new Date(inq.created_at).toLocaleString()}</td>
+                        <td class="p-5 text-right">
+                            <button class="bg-white text-black px-4 py-2 text-[10px] tracking-widest uppercase font-bold rounded hover:bg-primary-fixed transition-colors">Review</button>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+                
+            } catch(e) {
+                console.error("Error fetching admin data:", e);
+            }
+        }
+        
+        // Fetch data immediately
+        fetchDashboardData();
+
+        // Continuously update the dashboard every 5 seconds
+        setInterval(fetchDashboardData, 5000);
+    </script>
+    
+    <!-- Chart Configuration -->
+    <script>
+        const ctx = document.getElementById('inquiryChart').getContext('2d');
+        
+        // Gradient for chart line
+        let gradient = ctx.createLinearGradient(0, 0, 0, 400);
+        gradient.addColorStop(0, 'rgba(186, 237, 221, 0.5)'); // primary-fixed with opacity
+        gradient.addColorStop(1, 'rgba(186, 237, 221, 0.0)');
+
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+                datasets: [{
+                    label: 'New Inquiries',
+                    data: [5, 8, 4, 11, 9, 6, 12],
+                    borderColor: '#baeddc',
+                    backgroundColor: gradient,
+                    borderWidth: 2,
+                    pointBackgroundColor: '#fff',
+                    pointBorderColor: '#baeddc',
+                    pointBorderWidth: 2,
+                    pointRadius: 4,
+                    pointHoverRadius: 6,
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        backgroundColor: '#121212',
+                        titleColor: '#fff',
+                        bodyColor: '#baeddc',
+                        borderColor: 'rgba(255,255,255,0.1)',
+                        borderWidth: 1,
+                        padding: 12,
+                        displayColors: false,
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.05)',
+                            drawBorder: false,
+                        },
+                        ticks: {
+                            color: '#a3aaa6',
+                            font: {
+                                family: "'JetBrains Mono', monospace",
+                                size: 10
+                            }
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false,
+                            drawBorder: false,
+                        },
+                        ticks: {
+                            color: '#a3aaa6',
+                            font: {
+                                family: "'JetBrains Mono', monospace",
+                                size: 10
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
