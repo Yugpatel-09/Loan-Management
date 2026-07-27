@@ -6,10 +6,10 @@
     <title>Registration | Mangukiya Reserve</title>
 
     <!-- Material Symbols -->
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
 
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&amp;family=Playfair+Display:ital,wght@0,600;0,700;1,600;1,700&amp;family=Manrope:wght@300;400;600;700&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Playfair+Display:ital,wght@0,600;0,700;1,600;1,700&family=Manrope:wght@300;400;600;700&display=swap" rel="stylesheet"/>
 
     <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
@@ -69,7 +69,7 @@
     <main class="flex-grow flex items-center justify-center p-6 z-10 mt-16 mb-16">
         <div class="glass-panel w-full max-w-md p-10 lg:p-12 shadow-2xl relative">
             <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary-fixed to-transparent opacity-50"></div>
-            
+
             <div class="text-center mb-10">
                 <h1 class="text-3xl font-serif mb-3">Client Application</h1>
                 <p class="text-on-surface-variant text-sm tracking-widest uppercase opacity-70">New Portfolio Registration</p>
@@ -90,7 +90,7 @@
                     <label class="block text-xs uppercase tracking-widest text-on-surface-variant mb-2">Email Address</label>
                     <input type="email" id="email" required class="w-full bg-black/50 border border-white/10 px-4 py-3 text-on-surface focus:outline-none focus:border-primary-fixed transition-colors placeholder:text-white/20" placeholder="client@example.com">
                 </div>
-                
+
                 <div>
                     <label class="block text-xs uppercase tracking-widest text-on-surface-variant mb-2">Create Password</label>
                     <input type="password" id="password" required class="w-full bg-black/50 border border-white/10 px-4 py-3 text-on-surface focus:outline-none focus:border-primary-fixed transition-colors placeholder:text-white/20" placeholder="••••••••">
@@ -101,7 +101,7 @@
                     <label for="terms" class="text-xs text-on-surface-variant leading-relaxed">I agree to the Institutional Terms, Disclosures, and Privacy Policy.</label>
                 </div>
 
-                <button type="submit" class="w-full mt-4 bg-primary-fixed text-[#00382d] font-bold tracking-[0.2em] text-sm py-4 hover:bg-white transition-colors duration-300">
+                <button type="submit" id="signupButton" class="w-full mt-4 bg-primary-fixed text-[#00382d] font-bold tracking-[0.2em] text-sm py-4 hover:bg-white transition-colors duration-300">
                     SUBMIT APPLICATION
                 </button>
             </form>
@@ -113,39 +113,35 @@
         </div>
     </main>
 
-    <script>
+    <script type="module">
+        import { signUpUser } from './firebase-service.js';
+
         document.getElementById('signupForm').addEventListener('submit', async (e) => {
             e.preventDefault();
-            const btn = e.target.querySelector('button');
-            const originalText = btn.textContent;
-            btn.textContent = 'SUBMITTING...';
-            
+            const button = document.getElementById('signupButton');
+            const originalText = button.textContent;
+            button.textContent = 'SUBMITTING...';
+            button.disabled = true;
+
             const data = {
                 full_name: document.getElementById('full_name').value,
                 phone_number: document.getElementById('phone_number').value,
                 email: document.getElementById('email').value,
                 password: document.getElementById('password').value,
             };
-            
+
             try {
-                const res = await fetch('/api/signup', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(data)
-                });
-                if (res.ok) {
-                    localStorage.setItem('userEmail', data.email);
-                    localStorage.setItem('userName', data.full_name);
-                    alert('Signup successful! Redirecting to dashboard...');
-                    window.location.href = 'dashboard.html';
-                } else {
-                    const err = await res.json();
-                    alert('Error: ' + err.error);
-                    btn.textContent = originalText;
-                }
-            } catch(err) {
-                alert('Server connection failed.');
-                btn.textContent = originalText;
+                const { user } = await signUpUser(data);
+                // Store user data in localStorage (matching format from setLocalUser in firebase-service.js)
+                localStorage.setItem('userEmail', user.email);
+                localStorage.setItem('userName', user.displayName || user.email || 'Client');
+                alert('Signup successful! Redirecting to dashboard...');
+                window.location.href = 'dashboard.html';
+            } catch (err) {
+                console.error('Signup error:', err);
+                alert('Error: ' + (err.message || 'Signup failed'));
+                button.textContent = originalText;
+                button.disabled = false;
             }
         });
     </script>
