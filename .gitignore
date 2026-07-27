@@ -33,3 +33,4 @@ coverage/
 assets/.DS_Store
 
 reserve.db
+.vercel
