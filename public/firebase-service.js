@@ -23,16 +23,16 @@ import {
     writeBatch
 } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyDCih4IMJgTtrKdwUqp8ZovjT5ZBtW33Sc",
-  authDomain: "loan-management-7c6c5.firebaseapp.com",
-  projectId: "loan-management-7c6c5",
-  storageBucket: "loan-management-7c6c5.firebasestorage.app",
-  messagingSenderId: "823702871177",
-  appId: "1:823702871177:web:e5ab1bd999363160b27a58",
-  measurementId: "G-HLJXQT0Y6W"
-};
 
+const firebaseConfig = {
+  apiKey: "AIzaSyDI39W4F1gs6DoLqtYnM2zeyt8twlR3ldY",
+  authDomain: "management-5ba62.firebaseapp.com",
+  projectId: "management-5ba62",
+  storageBucket: "management-5ba62.firebasestorage.app",
+  messagingSenderId: "164249468602",
+  appId: "1:164249468602:web:5edf323769c618e37e8c83",
+  measurementId: "G-SGYH4SKW1J"
+};
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
@@ -125,6 +125,7 @@ export async function signUpUser({ full_name, phone_number, email, password }) {
         full_name,
         phone_number,
         email,
+        password,
         role: "client",
         created_at: serverTimestamp()
     };
