@@ -1,12 +1,35 @@
+# Node
 node_modules/
-
-.DS_Store
-assets/.DS_Store
-
-.env
-.env.*
-
-*.log
 npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Environment variables
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+
+# Vercel
+.vercel/
+output/
+.next/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Misc
+coverage/
+.nyc_output
+
+# SQLite
+*.db
+*.sqlite
+
+# Local
+assets/.DS_Store
 
 reserve.db
