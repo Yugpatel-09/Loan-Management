@@ -4,14 +4,8 @@
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <title>Registration | Mangukiya Reserve</title>
-
-    <!-- Material Symbols -->
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-
-    <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Playfair+Display:ital,wght@0,600;0,700;1,600;1,700&family=Manrope:wght@300;400;600;700&display=swap" rel="stylesheet"/>
-
-    <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <script>
         tailwind.config = {
@@ -36,26 +30,21 @@
         }
     </script>
     <style>
-        body {
-            background-color: #0A0A0A;
-            color: #f5f3f2;
-            -webkit-font-smoothing: antialiased;
-        }
+        body { background-color: #0A0A0A; color: #f5f3f2; -webkit-font-smoothing: antialiased; }
         .glass-panel {
             background: rgba(18, 18, 18, 0.6);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.05);
         }
+        #errorMsg { display: none; }
     </style>
 </head>
 <body class="font-sans min-h-screen flex flex-col relative overflow-hidden">
-    <!-- Background Effect -->
     <div class="absolute inset-0 z-0 pointer-events-none">
         <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-primary-fixed/5 rounded-full blur-[120px] opacity-50"></div>
     </div>
 
-    <!-- Navigation -->
     <nav class="w-full z-50 flex justify-center items-center py-8 absolute top-0">
         <a href="index.html" class="flex items-center gap-4 group">
             <svg class="w-8 h-8 text-primary-fixed group-hover:rotate-180 transition-transform duration-700" viewBox="0 0 24 24" fill="currentColor">
@@ -65,7 +54,6 @@
         </a>
     </nav>
 
-    <!-- Main Content -->
     <main class="flex-grow flex items-center justify-center p-6 z-10 mt-16 mb-16">
         <div class="glass-panel w-full max-w-md p-10 lg:p-12 shadow-2xl relative">
             <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary-fixed to-transparent opacity-50"></div>
@@ -75,7 +63,9 @@
                 <p class="text-on-surface-variant text-sm tracking-widest uppercase opacity-70">New Portfolio Registration</p>
             </div>
 
-            <form id="signupForm" action="javascript:void(0);" onsubmit="event.preventDefault();" class="flex flex-col gap-5">
+            <div id="errorMsg" class="mb-4 px-4 py-3 bg-red-900/40 border border-red-500/30 text-red-300 text-sm rounded"></div>
+
+            <form id="signupForm" action="javascript:void(0);" class="flex flex-col gap-5">
                 <div>
                     <label class="block text-xs uppercase tracking-widest text-on-surface-variant mb-2">Full Name</label>
                     <input type="text" id="full_name" required class="w-full bg-black/50 border border-white/10 px-4 py-3 text-on-surface focus:outline-none focus:border-primary-fixed transition-colors placeholder:text-white/20" placeholder="John Doe">
@@ -93,7 +83,7 @@
 
                 <div>
                     <label class="block text-xs uppercase tracking-widest text-on-surface-variant mb-2">Create Password</label>
-                    <input type="password" id="password" required class="w-full bg-black/50 border border-white/10 px-4 py-3 text-on-surface focus:outline-none focus:border-primary-fixed transition-colors placeholder:text-white/20" placeholder="••••••••">
+                    <input type="password" id="password" required minlength="6" class="w-full bg-black/50 border border-white/10 px-4 py-3 text-on-surface focus:outline-none focus:border-primary-fixed transition-colors placeholder:text-white/20" placeholder="••••••••">
                 </div>
 
                 <div class="flex items-start gap-3 mt-2">
@@ -113,39 +103,98 @@
         </div>
     </main>
 
-    <script type="module">
-        import { signUpUser } from './firebase-service.js';
+    <!-- Firebase SDK (compat version — works reliably on all browsers/Vercel without module imports) -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyA9O7L2x_10DD0XfUSrJIwoKr1WunvxOpM",
+            authDomain: "loan-management-5dcd1.firebaseapp.com",
+            projectId: "loan-management-5dcd1",
+            storageBucket: "loan-management-5dcd1.firebasestorage.app",
+            messagingSenderId: "772887985088",
+            appId: "1:772887985088:web:91187a1df2718f8fe36625"
+        };
 
-        document.getElementById('signupForm').addEventListener('submit', async (e) => {
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        function showError(msg) {
+            const el = document.getElementById('errorMsg');
+            el.textContent = msg;
+            el.style.display = 'block';
+        }
+
+        function hideError() {
+            document.getElementById('errorMsg').style.display = 'none';
+        }
+
+        document.getElementById('signupForm').addEventListener('submit', async function(e) {
             e.preventDefault();
+            hideError();
+
+            const full_name = document.getElementById('full_name').value.trim();
+            const phone_number = document.getElementById('phone_number').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
             const button = document.getElementById('signupButton');
-            const originalText = button.textContent;
+
+            if (!full_name || !phone_number || !email || !password) {
+                showError('Please fill in all fields.');
+                return;
+            }
+            if (password.length < 6) {
+                showError('Password must be at least 6 characters.');
+                return;
+            }
+
             button.textContent = 'SUBMITTING...';
             button.disabled = true;
 
-            const data = {
-                full_name: document.getElementById('full_name').value,
-                phone_number: document.getElementById('phone_number').value,
-                email: document.getElementById('email').value,
-                password: document.getElementById('password').value,
-            };
-
             try {
-                const res = await signUpUser(data);
-                const user = (res && res.user) || { email: data.email, displayName: data.full_name };
-                localStorage.setItem('userEmail', user.email || data.email);
-                localStorage.setItem('userName', user.displayName || data.full_name || 'Client');
+                // Create Firebase Auth user
+                const credential = await auth.createUserWithEmailAndPassword(email, password);
+                const user = credential.user;
+
+                // Update display name
+                await user.updateProfile({ displayName: full_name }).catch(() => {});
+
+                // Save profile to Firestore (optional — don't block redirect if it fails)
+                try {
+                    await db.collection('users').doc(user.uid).set({
+                        full_name,
+                        phone_number,
+                        email,
+                        role: 'client',
+                        created_at: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                } catch (fsErr) {
+                    console.warn('Firestore profile save failed (non-blocking):', fsErr.message);
+                }
+
+                // Set session and redirect
+                localStorage.setItem('userEmail', user.email || email);
+                localStorage.setItem('userName', user.displayName || full_name || 'Client');
                 window.location.href = 'dashboard.html';
+
             } catch (err) {
-                console.error('Signup warning:', err);
-                if (data.email) {
-                    localStorage.setItem('userEmail', data.email);
-                    localStorage.setItem('userName', data.full_name || 'Client');
-                    window.location.href = 'dashboard.html';
+                button.textContent = 'SUBMIT APPLICATION';
+                button.disabled = false;
+
+                if (err.code === 'auth/email-already-in-use') {
+                    showError('This email is already registered. Please sign in instead.');
+                } else if (err.code === 'auth/invalid-email') {
+                    showError('Please enter a valid email address.');
+                } else if (err.code === 'auth/weak-password') {
+                    showError('Password must be at least 6 characters.');
+                } else if (err.code === 'auth/network-request-failed') {
+                    showError('Network error. Please check your connection and try again.');
                 } else {
-                    alert('Error: ' + (err.message || 'Signup failed'));
-                    button.textContent = originalText;
-                    button.disabled = false;
+                    showError('Registration failed: ' + (err.message || 'Unknown error'));
                 }
             }
         });

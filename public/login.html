@@ -4,14 +4,8 @@
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <title>Client Portal | Mangukiya Reserve</title>
-
-    <!-- Material Symbols -->
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-
-    <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Playfair+Display:ital,wght@0,600;0,700;1,600;1,700&family=Manrope:wght@300;400;600;700&display=swap" rel="stylesheet"/>
-
-    <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <script>
         tailwind.config = {
@@ -36,26 +30,21 @@
         }
     </script>
     <style>
-        body {
-            background-color: #0A0A0A;
-            color: #f5f3f2;
-            -webkit-font-smoothing: antialiased;
-        }
+        body { background-color: #0A0A0A; color: #f5f3f2; -webkit-font-smoothing: antialiased; }
         .glass-panel {
             background: rgba(18, 18, 18, 0.6);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.05);
         }
+        #errorMsg { display: none; }
     </style>
 </head>
 <body class="font-sans min-h-screen flex flex-col relative overflow-hidden">
-    <!-- Background Effect -->
     <div class="absolute inset-0 z-0 pointer-events-none">
         <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-primary-fixed/5 rounded-full blur-[120px] opacity-50"></div>
     </div>
 
-    <!-- Navigation -->
     <nav class="w-full z-50 flex justify-center items-center py-8 absolute top-0">
         <a href="index.html" class="flex items-center gap-4 group">
             <svg class="w-8 h-8 text-primary-fixed group-hover:rotate-180 transition-transform duration-700" viewBox="0 0 24 24" fill="currentColor">
@@ -65,7 +54,6 @@
         </a>
     </nav>
 
-    <!-- Main Content -->
     <main class="flex-grow flex items-center justify-center p-6 z-10">
         <div class="glass-panel w-full max-w-md p-10 lg:p-12 shadow-2xl relative">
             <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary-fixed to-transparent opacity-50"></div>
@@ -75,7 +63,9 @@
                 <p class="text-on-surface-variant text-sm tracking-widest uppercase opacity-70">Secure Institutional Access</p>
             </div>
 
-            <form id="loginForm" action="javascript:void(0);" onsubmit="event.preventDefault();" class="flex flex-col gap-6">
+            <div id="errorMsg" class="mb-4 px-4 py-3 bg-red-900/40 border border-red-500/30 text-red-300 text-sm rounded"></div>
+
+            <form id="loginForm" action="javascript:void(0);" class="flex flex-col gap-6">
                 <div>
                     <label class="block text-xs uppercase tracking-widest text-on-surface-variant mb-2">Email Address</label>
                     <input type="email" id="email" required class="w-full bg-black/50 border border-white/10 px-4 py-3 text-on-surface focus:outline-none focus:border-primary-fixed transition-colors placeholder:text-white/20" placeholder="client@example.com">
@@ -106,34 +96,73 @@
         </div>
     </main>
 
-    <script type="module">
-        import { loginUser } from './firebase-service.js';
+    <!-- Firebase SDK (non-module, compat version — works reliably on all browsers/Vercel) -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
+    <script>
+        // Firebase config
+        const firebaseConfig = {
+            apiKey: "AIzaSyA9O7L2x_10DD0XfUSrJIwoKr1WunvxOpM",
+            authDomain: "loan-management-5dcd1.firebaseapp.com",
+            projectId: "loan-management-5dcd1",
+            storageBucket: "loan-management-5dcd1.firebasestorage.app",
+            messagingSenderId: "772887985088",
+            appId: "1:772887985088:web:91187a1df2718f8fe36625"
+        };
 
-        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+        // Initialize Firebase
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+        const auth = firebase.auth();
+
+        function showError(msg) {
+            const el = document.getElementById('errorMsg');
+            el.textContent = msg;
+            el.style.display = 'block';
+        }
+
+        function hideError() {
+            document.getElementById('errorMsg').style.display = 'none';
+        }
+
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
             e.preventDefault();
-            const email = document.getElementById('email').value;
+            hideError();
+
+            const email = document.getElementById('email').value.trim();
             const password = document.getElementById('password').value;
             const button = document.getElementById('loginButton');
-            const originalText = button.textContent;
+
+            if (!email || !password) {
+                showError('Please enter your email and password.');
+                return;
+            }
+
             button.textContent = 'SIGNING IN...';
             button.disabled = true;
 
             try {
-                const { user } = await loginUser(email, password);
-                localStorage.setItem('userEmail', (user && user.email) || email);
-                localStorage.setItem('userName', (user && user.displayName) || email.split('@')[0] || 'Client');
+                const credential = await auth.signInWithEmailAndPassword(email, password);
+                const user = credential.user;
+                localStorage.setItem('userEmail', user.email || email);
+                localStorage.setItem('userName', user.displayName || email.split('@')[0] || 'Client');
                 window.location.href = 'dashboard.html';
             } catch (err) {
-                console.error('Login warning:', err);
-                // Guaranteed login fallback to prevent user getting stuck
-                if (email && password.length >= 4) {
-                    localStorage.setItem('userEmail', email);
-                    localStorage.setItem('userName', email.split('@')[0] || 'Client');
-                    window.location.href = 'dashboard.html';
+                button.textContent = 'SECURE LOGIN';
+                button.disabled = false;
+
+                // User-friendly error messages
+                if (err.code === 'auth/user-not-found' || err.code === 'auth/wrong-password' || err.code === 'auth/invalid-credential') {
+                    showError('Incorrect email or password. Please try again.');
+                } else if (err.code === 'auth/invalid-email') {
+                    showError('Please enter a valid email address.');
+                } else if (err.code === 'auth/too-many-requests') {
+                    showError('Too many failed attempts. Please wait a moment and try again.');
+                } else if (err.code === 'auth/network-request-failed') {
+                    showError('Network error. Please check your connection and try again.');
                 } else {
-                    alert('Login failed: ' + (err.message || 'Invalid email or password'));
-                    button.textContent = originalText;
-                    button.disabled = false;
+                    showError('Login failed: ' + (err.message || 'Unknown error'));
                 }
             }
         });

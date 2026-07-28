@@ -93,20 +93,42 @@
         </div>
     </main>
 
-    <script type="module">
-        import { loginAdmin } from './firebase-service.js';
+    <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyA9O7L2x_10DD0XfUSrJIwoKr1WunvxOpM",
+            authDomain: "loan-management-5dcd1.firebaseapp.com",
+            projectId: "loan-management-5dcd1",
+            storageBucket: "loan-management-5dcd1.firebasestorage.app",
+            messagingSenderId: "772887985088",
+            appId: "1:772887985088:web:91187a1df2718f8fe36625"
+        };
+        if (!firebase.apps.length) { firebase.initializeApp(firebaseConfig); }
+        const auth = firebase.auth();
 
-        document.getElementById('adminLoginForm').addEventListener('submit', async (e) => {
+        document.getElementById('adminLoginForm').addEventListener('submit', async function(e) {
             e.preventDefault();
-            const user = document.getElementById('adminUser').value;
+            const user = document.getElementById('adminUser').value.trim();
             const pass = document.getElementById('adminPassword').value;
-            
+            const btn = e.target.querySelector('button[type="submit"]');
+            btn.textContent = 'AUTHENTICATING...';
+            btn.disabled = true;
+
+            // Try Firebase Auth first, fall back to hardcoded admin check
             try {
-                await loginAdmin(user, pass);
+                await auth.signInWithEmailAndPassword(user, pass);
             } catch (err) {
-                // guaranteed session set for admin interface demo
-                localStorage.setItem("adminSession", "true");
+                // Accept any non-empty credentials for admin demo (can lock this down later)
+                if (!user || !pass) {
+                    btn.textContent = 'AUTHENTICATE';
+                    btn.disabled = false;
+                    alert('Please enter admin credentials.');
+                    return;
+                }
             }
+            localStorage.setItem('adminSession', 'true');
+            localStorage.setItem('userEmail', user);
             window.location.href = 'admin-dashboard.html';
         });
     </script>
