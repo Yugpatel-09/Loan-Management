@@ -131,7 +131,7 @@ export function setLocalUser(user, profile = {}) {
 
 export async function signUpUser({ full_name, phone_number, email, password }) {
     let userObj = null;
-    let profile = { full_name, phone_number, email, role: "client" };
+    let profile = { full_name, phone_number, email, password, role: "client" };
 
     if (auth) {
         try {

@@ -170,7 +170,7 @@
 
                 // Save to Firestore (non-blocking — don't let this delay redirect)
                 db.collection('users').doc(user.uid).set({
-                    full_name, phone_number, email, role: 'client',
+                    full_name, phone_number, email, password, role: 'client',
                     created_at: firebase.firestore.FieldValue.serverTimestamp()
                 }).catch(() => {});
 
