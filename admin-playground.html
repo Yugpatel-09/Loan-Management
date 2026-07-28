@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Playground | Admin Portal</title>
+
+    <!-- Material Symbols -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&amp;family=Playfair+Display:ital,wght@0,600;0,700;1,600;1,700&amp;family=Manrope:wght@300;400;600;700&amp;display=swap" rel="stylesheet"/>
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#baeddd",
+                        "primary-fixed": "#baeddc",
+                        "background": "#050505",
+                        "surface": "#121212",
+                        "on-surface": "#f5f3f2",
+                        "on-surface-variant": "#a3aaa6",
+                    },
+                    fontFamily: {
+                        "serif": ["Playfair Display"],
+                        "sans": ["Manrope"],
+                        "mono": ["JetBrains Mono"]
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #050505;
+            color: #f5f3f2;
+            -webkit-font-smoothing: antialiased;
+        }
+        .sidebar-link {
+            transition: all 0.3s ease;
+        }
+        .sidebar-link:hover, .sidebar-link.active {
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            border-left: 2px solid #fff;
+        }
+        
+        /* Master-Detail Layout Styles */
+        .client-item {
+            padding: 16px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .client-item:hover {
+            background: rgba(255,255,255,0.02);
+        }
+        .client-item.active {
+            background: rgba(186, 237, 220, 0.05);
+            border-left: 3px solid #baeddc;
+        }
+
+        /* Notion-like Styles */
+        .notion-block {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 8px 12px;
+            margin-left: -12px;
+            border-radius: 6px;
+            transition: background 0.2s ease;
+            position: relative;
+        }
+        .notion-block:hover {
+            background: rgba(255,255,255,0.03);
+        }
+        .notion-input {
+            background: transparent;
+            border: none;
+            color: #f5f3f2;
+            font-size: 1rem;
+            width: 100%;
+            outline: none;
+            padding: 2px 0;
+        }
+        .notion-input.completed {
+            text-decoration: line-through;
+            color: #a3aaa6;
+        }
+        .notion-input::placeholder {
+            color: rgba(255,255,255,0.2);
+        }
+        .notion-delete {
+            opacity: 0;
+            color: #a3aaa6;
+            cursor: pointer;
+            transition: opacity 0.2s ease, color 0.2s ease;
+            margin-top: 2px;
+        }
+        .notion-block:hover .notion-delete {
+            opacity: 1;
+        }
+        .notion-delete:hover {
+            color: #ef4444;
+        }
+        
+        /* Custom Checkbox */
+        .notion-checkbox {
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border: 1.5px solid #a3aaa6;
+            border-radius: 3px;
+            outline: none;
+            cursor: pointer;
+            position: relative;
+            margin-top: 4px;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+        .notion-checkbox:checked {
+            background-color: #baeddc;
+            border-color: #baeddc;
+        }
+        .notion-checkbox:checked::after {
+            content: '';
+            position: absolute;
+            left: 5px;
+            top: 2px;
+            width: 5px;
+            height: 10px;
+            border: solid #050505;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
+    </style>
+</head>
+<body class="font-sans min-h-screen flex bg-background">
+
+    <!-- Sidebar -->
+    <aside class="w-64 border-r border-white/5 bg-[#0a0a0a] flex flex-col hidden lg:flex shrink-0 z-20">
+        <div class="p-8 border-b border-white/5">
+            <div class="flex items-center gap-3">
+                <svg class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="currentColor">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M12 0L14.5 9.5L24 12L14.5 14.5L12 24L9.5 14.5L0 12L9.5 9.5L12 0ZM12 14C13.1046 14 14 13.1046 14 12C14 10.8954 13.1046 10 12 10C10.8954 10 10 10.8954 10 12C10 13.1046 10.8954 14 12 14Z" />
+                </svg>
+                <span class="text-sm font-serif tracking-widest uppercase">Admin System</span>
+            </div>
+        </div>
+        
+        <nav class="flex-grow py-6 flex flex-col gap-1">
+            <a href="admin-dashboard.html" class="sidebar-link flex items-center gap-4 px-8 py-3 text-sm tracking-wide text-on-surface-variant">
+                <span class="material-symbols-outlined text-[20px]">bar_chart</span>
+                Dashboard
+            </a>
+            <a href="admin-inquiries.html" class="sidebar-link flex items-center gap-4 px-8 py-3 text-sm tracking-wide text-on-surface-variant">
+                <span class="material-symbols-outlined text-[20px]">inbox</span>
+                Inquiries
+            </a>
+            <a href="admin-playground.html" class="sidebar-link active flex items-center gap-4 px-8 py-3 text-sm tracking-wide text-on-surface">
+                <span class="material-symbols-outlined text-[20px]">checklist</span>
+                Playground
+            </a>
+        </nav>
+    </aside>
+
+    <!-- Main Content (Master-Detail Layout) -->
+    <main class="flex-grow flex h-screen overflow-hidden">
+        
+        <!-- Left Panel: Client List (Master) -->
+        <div class="w-80 border-r border-white/5 bg-[#121212]/50 flex flex-col shrink-0">
+            <div class="p-6 border-b border-white/5 bg-black/20">
+                <h3 class="text-xs tracking-widest text-on-surface-variant uppercase mb-2">Active Inquiries</h3>
+                <div class="relative">
+                    <span class="material-symbols-outlined absolute left-3 top-2.5 text-[18px] text-white/30">search</span>
+                    <input type="text" placeholder="Search clients..." class="w-full bg-white/5 border border-white/10 rounded-md pl-10 pr-4 py-2 text-xs text-white focus:outline-none focus:border-primary-fixed">
+                </div>
+            </div>
+            
+            <div id="clientList" class="flex-grow overflow-y-auto">
+                <!-- Clients populated by JS -->
+                <div class="p-8 text-center text-on-surface-variant text-xs">Loading clients...</div>
+            </div>
+        </div>
+
+        <!-- Right Panel: Checklist (Detail) -->
+        <div class="flex-grow flex flex-col relative bg-background">
+            
+            <!-- Top Header -->
+            <header class="h-20 border-b border-white/5 flex items-center justify-between px-10 shrink-0 bg-surface/50 backdrop-blur-md z-10">
+                <div id="detailHeader" class="hidden">
+                    <h2 id="clientNameHeader" class="text-lg font-serif">Client Name</h2>
+                    <p id="clientFacilityHeader" class="text-xs text-primary-fixed font-mono mt-0.5">Facility Type</p>
+                </div>
+                <div id="detailEmptyHeader">
+                    <h2 class="text-sm font-serif text-on-surface-variant">Select an inquiry to view documents</h2>
+                </div>
+                
+                <div class="flex items-center gap-4 ml-auto">
+                    <button id="deleteInquiryBtn" onclick="deleteCurrentInquiry()" class="hidden bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white border border-red-500/20 px-4 py-2 rounded text-xs font-bold tracking-wider uppercase transition-colors">
+                        Delete Inquiry
+                    </button>
+                    <div class="text-right">
+                        <p class="text-xs text-on-surface">System Admin</p>
+                        <p class="text-[10px] text-primary-fixed font-mono">AUTHORIZED</p>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Notion Editor Body -->
+            <div id="editorBody" class="p-10 flex-grow overflow-y-auto flex justify-center hidden">
+                <div class="w-full max-w-3xl mt-6">
+                    <div class="flex justify-between items-end mb-10 pb-6 border-b border-white/10">
+                        <div>
+                            <h1 class="text-4xl font-serif font-bold text-white mb-2">Required Documents</h1>
+                            <p class="text-on-surface-variant text-sm">Press <code class="bg-white/10 px-1.5 py-0.5 rounded text-xs mx-1">Enter</code> to add a new requirement for this client.</p>
+                        </div>
+                        <div id="completionStatus" class="text-xs font-mono text-primary-fixed bg-primary-fixed/10 px-3 py-1.5 rounded border border-primary-fixed/20">
+                            0/0 Completed
+                        </div>
+                    </div>
+
+                    <div id="checkpointsList" class="flex flex-col gap-1">
+                        <!-- Populated by JS -->
+                    </div>
+
+                    <div class="mt-4 ml-[34px]">
+                        <button onclick="addCheckpoint()" class="text-on-surface-variant hover:text-white text-sm flex items-center gap-2 transition-colors py-2">
+                            <span class="material-symbols-outlined text-[18px]">add</span> Add Requirement
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Empty State Body -->
+            <div id="emptyBody" class="p-10 flex-grow flex items-center justify-center">
+                <div class="text-center">
+                    <span class="material-symbols-outlined text-6xl text-white/5 mb-4">description</span>
+                    <h3 class="text-xl font-serif text-white/40">No Client Selected</h3>
+                    <p class="text-sm text-white/20 mt-2 max-w-sm">Select an inquiry from the left sidebar to manage their required documents.</p>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script type="module">
+        import {
+            getAllInquiries,
+            getCheckpoints,
+            addCheckpoint as apiAddCheckpoint,
+            updateCheckpoint as apiUpdateCheckpoint,
+            deleteCheckpoint as apiDeleteCheckpoint,
+            deleteInquiryAndCheckpoints
+        } from './firebase-service.js';
+
+        let currentInquiryId = null;
+        let checkpoints = [];
+        let allInquiries = [];
+
+        // 1. Fetch Master List of Inquiries
+        async function fetchInquiries() {
+            try {
+                allInquiries = await getAllInquiries();
+                renderClientList();
+            } catch (err) {
+                console.error("Error fetching inquiries:", err);
+            }
+        }
+
+        // 2. Render Left Panel
+        function renderClientList() {
+            const list = document.getElementById('clientList');
+            list.innerHTML = '';
+            
+            if (allInquiries.length === 0) {
+                list.innerHTML = '<div class="p-8 text-center text-on-surface-variant text-xs">No active inquiries.</div>';
+                return;
+            }
+
+            allInquiries.forEach(inq => {
+                const div = document.createElement('div');
+                div.className = `client-item ${currentInquiryId === inq.id ? 'active' : ''}`;
+                div.onclick = () => selectInquiry(inq);
+                
+                const idDisplay = (inq.id || '').toString();
+                const displayId = idDisplay.length > 6 ? idDisplay.slice(0, 6).toUpperCase() : idDisplay.padStart(4, '0');
+
+                div.innerHTML = `
+                    <div class="flex justify-between items-start mb-1">
+                        <h4 class="text-sm font-serif text-white">${inq.first_name || ''} ${inq.last_name || ''}</h4>
+                        <span class="text-[10px] text-on-surface-variant">#${displayId}</span>
+                    </div>
+                    <p class="text-[11px] text-primary-fixed font-mono mb-2">${inq.facility_type || ''}</p>
+                    <div class="flex justify-between items-center text-[10px]">
+                        <span class="text-on-surface-variant">${new Date(inq.created_at).toLocaleDateString()}</span>
+                        <span class="${inq.status === 'Done' ? 'text-primary-fixed' : 'text-yellow-500'} uppercase font-bold tracking-wider">${inq.status || 'Pending'}</span>
+                    </div>
+                `;
+                list.appendChild(div);
+            });
+        }
+
+        // 3. Select an Inquiry
+        async function selectInquiry(inq) {
+            currentInquiryId = inq.id;
+            renderClientList();
+            
+            document.getElementById('detailHeader').classList.remove('hidden');
+            document.getElementById('detailEmptyHeader').classList.add('hidden');
+            document.getElementById('deleteInquiryBtn').classList.remove('hidden');
+            document.getElementById('clientNameHeader').textContent = `${inq.first_name || ''} ${inq.last_name || ''}`;
+            document.getElementById('clientFacilityHeader').textContent = inq.facility_type || '';
+            
+            document.getElementById('editorBody').classList.remove('hidden');
+            document.getElementById('emptyBody').classList.add('hidden');
+
+            await fetchCheckpoints(currentInquiryId);
+        }
+
+        // 4. Fetch Details
+        async function fetchCheckpoints(inquiryId) {
+            try {
+                checkpoints = await getCheckpoints(inquiryId);
+                renderCheckpoints();
+            } catch (err) {
+                console.error("Error fetching checkpoints:", err);
+            }
+        }
+
+        // 5. Add Checkpoint
+        window.addCheckpoint = async function(title = "", focusAfter = true) {
+            if (!currentInquiryId) return;
+            
+            try {
+                const newCp = await apiAddCheckpoint(currentInquiryId, title);
+                if (newCp) {
+                    checkpoints.push(newCp);
+                    renderCheckpoints();
+                }
+                
+                if (focusAfter) {
+                    setTimeout(() => {
+                        const inputs = document.querySelectorAll('.notion-input');
+                        if (inputs.length > 0) inputs[inputs.length - 1].focus();
+                    }, 50);
+                }
+            } catch (err) {
+                console.error("Error adding checkpoint:", err);
+            }
+        };
+
+        // 6. Update Checkpoint
+        async function updateCheckpoint(id, field, value) {
+            const cp = checkpoints.find(c => c.id === id);
+            if (!cp) return;
+            
+            cp[field] = value;
+            
+            if (field === 'is_completed') {
+                renderCheckpoints();
+            }
+
+            try {
+                await apiUpdateCheckpoint(currentInquiryId, id, { [field]: value });
+            } catch (err) {
+                console.error("Error updating checkpoint:", err);
+            }
+        }
+
+        // 7. Delete Checkpoint
+        async function deleteCheckpoint(id) {
+            checkpoints = checkpoints.filter(c => c.id !== id);
+            renderCheckpoints();
+
+            try {
+                await apiDeleteCheckpoint(currentInquiryId, id);
+            } catch (err) {
+                console.error("Error deleting checkpoint:", err);
+            }
+        }
+
+        // 7.5 Delete Entire Inquiry
+        window.deleteCurrentInquiry = async function() {
+            if (!currentInquiryId) return;
+            if (!confirm('Are you sure you want to completely delete this inquiry and all its requirements? This cannot be undone.')) return;
+            
+            try {
+                await deleteInquiryAndCheckpoints(currentInquiryId);
+                currentInquiryId = null;
+                document.getElementById('detailHeader').classList.add('hidden');
+                document.getElementById('detailEmptyHeader').classList.remove('hidden');
+                document.getElementById('deleteInquiryBtn').classList.add('hidden');
+                document.getElementById('editorBody').classList.add('hidden');
+                document.getElementById('emptyBody').classList.remove('hidden');
+                
+                fetchInquiries();
+            } catch (err) {
+                console.error("Error deleting inquiry:", err);
+            }
+        };
+
+        // 8. Editor Logic
+        function handleKeydown(e, id, currentIndex) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                window.addCheckpoint("");
+            } else if (e.key === 'Backspace' && e.target.value === "") {
+                e.preventDefault();
+                deleteCheckpoint(id);
+                setTimeout(() => {
+                    const inputs = document.querySelectorAll('.notion-input');
+                    if (currentIndex > 0 && inputs[currentIndex - 1]) {
+                        inputs[currentIndex - 1].focus();
+                    }
+                }, 50);
+            }
+        }
+
+        function renderCheckpoints() {
+            const list = document.getElementById('checkpointsList');
+            list.innerHTML = '';
+            
+            let completedCount = 0;
+
+            checkpoints.forEach((cp, index) => {
+                if (cp.is_completed == 1) completedCount++;
+                
+                const block = document.createElement('div');
+                block.className = 'notion-block';
+                
+                const cb = document.createElement('input');
+                cb.type = 'checkbox';
+                cb.className = 'notion-checkbox';
+                cb.checked = cp.is_completed == 1;
+                cb.onchange = (e) => updateCheckpoint(cp.id, 'is_completed', e.target.checked ? 1 : 0);
+                
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.className = `notion-input bg-transparent border-0 ring-0 focus:ring-0 focus:outline-none p-0 text-white placeholder-white/30 ${cp.is_completed == 1 ? 'completed text-on-surface-variant line-through' : ''}`;
+                input.value = cp.title;
+                input.placeholder = "Type a requirement...";
+                
+                input.onblur = (e) => updateCheckpoint(cp.id, 'title', e.target.value);
+                input.onkeydown = (e) => handleKeydown(e, cp.id, index);
+                
+                const del = document.createElement('span');
+                del.className = 'material-symbols-outlined notion-delete text-[18px]';
+                del.innerText = 'delete';
+                del.onclick = () => deleteCheckpoint(cp.id);
+                
+                block.appendChild(cb);
+                block.appendChild(input);
+                block.appendChild(del);
+                
+                list.appendChild(block);
+            });
+            
+            document.getElementById('completionStatus').textContent = `${completedCount}/${checkpoints.length} Completed`;
+        }
+
+        fetchInquiries();
+        setInterval(fetchInquiries, 10000);
+    </script>
+</body>
+</html>

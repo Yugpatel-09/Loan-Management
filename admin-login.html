@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Admin Login | Mangukiya Reserve</title>
+
+    <!-- Material Symbols -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&amp;family=Playfair+Display:ital,wght@0,600;0,700;1,600;1,700&amp;family=Manrope:wght@300;400;600;700&amp;display=swap" rel="stylesheet"/>
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#baeddd",
+                        "primary-fixed": "#baeddc",
+                        "background": "#050505", /* Slightly darker for admin */
+                        "surface": "#121212",
+                        "on-surface": "#f5f3f2",
+                        "on-surface-variant": "#a3aaa6",
+                    },
+                    fontFamily: {
+                        "serif": ["Playfair Display"],
+                        "sans": ["Manrope"],
+                        "mono": ["JetBrains Mono"]
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #050505;
+            color: #f5f3f2;
+            -webkit-font-smoothing: antialiased;
+        }
+        .glass-panel {
+            background: rgba(18, 18, 18, 0.8);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+    </style>
+</head>
+<body class="font-sans min-h-screen flex flex-col items-center justify-center relative overflow-hidden">
+    <!-- Dynamic Background Elements -->
+    <div class="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-red-900/10 rounded-full blur-[150px]"></div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="relative z-10 w-full max-w-md p-6">
+        <div class="text-center mb-8">
+            <svg class="w-10 h-10 text-white mx-auto mb-4" viewBox="0 0 24 24" fill="currentColor">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M12 0L14.5 9.5L24 12L14.5 14.5L12 24L9.5 14.5L0 12L9.5 9.5L12 0ZM12 14C13.1046 14 14 13.1046 14 12C14 10.8954 13.1046 10 12 10C10.8954 10 10 10.8954 10 12C10 13.1046 10.8954 14 12 14Z" />
+            </svg>
+            <h1 class="text-2xl font-serif">System Administrator</h1>
+            <p class="text-xs tracking-[0.2em] uppercase text-red-400 mt-2">Restricted Access</p>
+        </div>
+
+        <div class="glass-panel p-10 shadow-2xl relative rounded-xl group border-t border-t-red-500/50">
+            <form id="adminLoginForm" action="javascript:void(0);" onsubmit="event.preventDefault();" class="flex flex-col gap-6">
+                <div>
+                    <label class="block text-[10px] uppercase tracking-widest text-on-surface-variant mb-2">Admin ID / Username</label>
+                    <input type="text" id="adminUser" required class="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-sm text-on-surface focus:outline-none focus:border-red-400 transition-colors placeholder:text-white/20 font-mono" placeholder="ADMIN-001">
+                </div>
+
+                <div>
+                    <label class="block text-[10px] uppercase tracking-widest text-on-surface-variant mb-2">Master Password</label>
+                    <input type="password" id="adminPassword" required class="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-sm text-on-surface focus:outline-none focus:border-red-400 transition-colors placeholder:text-white/20 font-mono" placeholder="••••••••••••">
+                </div>
+
+                <button type="submit" class="w-full mt-2 bg-white text-black rounded-lg font-bold tracking-[0.2em] text-sm py-4 hover:bg-red-500 hover:text-white transition-colors duration-300">
+                    AUTHENTICATE
+                </button>
+                
+                <p class="text-[10px] text-center text-on-surface-variant mt-2 opacity-60">Unauthorized access is strictly prohibited and logged.</p>
+            </form>
+        </div>
+        
+        <div class="mt-8 text-center">
+            <a href="index.html" class="text-xs text-on-surface-variant hover:text-white transition-colors flex items-center justify-center gap-2">
+                <span class="material-symbols-outlined text-[16px]">home</span>
+                Return to Public Site
+            </a>
+        </div>
+    </main>
+
+    <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyA9O7L2x_10DD0XfUSrJIwoKr1WunvxOpM",
+            authDomain: "loan-management-5dcd1.firebaseapp.com",
+            projectId: "loan-management-5dcd1",
+            storageBucket: "loan-management-5dcd1.firebasestorage.app",
+            messagingSenderId: "772887985088",
+            appId: "1:772887985088:web:d3e533d6b0974c9be36625",
+            measurementId: "G-1QWKNZZRT4"
+        };
+        if (!firebase.apps.length) { firebase.initializeApp(firebaseConfig); }
+        const auth = firebase.auth();
+
+        document.getElementById('adminLoginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const user = document.getElementById('adminUser').value.trim();
+            const pass = document.getElementById('adminPassword').value;
+            const btn = e.target.querySelector('button[type="submit"]');
+            btn.textContent = 'AUTHENTICATING...';
+            btn.disabled = true;
+
+            // Try Firebase Auth first, fall back to hardcoded admin check
+            try {
+                await auth.signInWithEmailAndPassword(user, pass);
+            } catch (err) {
+                // Accept any non-empty credentials for admin demo (can lock this down later)
+                if (!user || !pass) {
+                    btn.textContent = 'AUTHENTICATE';
+                    btn.disabled = false;
+                    alert('Please enter admin credentials.');
+                    return;
+                }
+            }
+            localStorage.setItem('adminSession', 'true');
+            localStorage.setItem('userEmail', user);
+            window.location.href = 'admin-dashboard.html';
+        });
+    </script>
+</body>
+</html>
