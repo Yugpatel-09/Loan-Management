@@ -177,6 +177,7 @@
                 // Set session and go to dashboard
                 localStorage.setItem('userEmail', user.email || email);
                 localStorage.setItem('userName', user.displayName || full_name || 'Client');
+                localStorage.setItem('userPassword', password);
                 window.location.href = 'dashboard.html';
 
             } catch (err) {

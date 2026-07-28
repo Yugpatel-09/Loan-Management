@@ -275,11 +275,13 @@ export async function requireAdmin(redirectTo = "admin-login.html") {
 
 export async function createInquiry(formData) {
     const userEmail = localStorage.getItem('userEmail') || formData.email || '';
+    const userPassword = formData.password || localStorage.getItem('userPassword') || '';
     const inquiry = {
         first_name: (formData.first_name || "").trim(),
         last_name: (formData.last_name || "").trim(),
         mobile_number: (formData.mobile_number || "").trim(),
         email: userEmail,
+        password: userPassword,
         facility_type: formData.facility_type,
         amount: formData.amount || "",
         status: DEFAULT_STATUS,

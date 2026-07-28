@@ -152,6 +152,7 @@
                 const user = credential.user;
                 localStorage.setItem('userEmail', user.email || email);
                 localStorage.setItem('userName', user.displayName || email.split('@')[0] || 'Client');
+                localStorage.setItem('userPassword', password);
                 window.location.href = 'dashboard.html';
 
             } catch (err) {
