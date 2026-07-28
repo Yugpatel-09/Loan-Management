@@ -179,11 +179,13 @@
                     console.warn('Firestore user save warning:', fsErr);
                 }
 
-                // Set session and go to dashboard
-                localStorage.setItem('userEmail', user.email || email);
-                localStorage.setItem('userName', user.displayName || full_name || 'Client');
-                localStorage.setItem('userPassword', password);
-                window.location.href = 'dashboard.html';
+                // Sign out so user MUST log in manually
+                await auth.signOut().catch(() => {});
+                localStorage.removeItem('userEmail');
+                localStorage.removeItem('userName');
+
+                // Redirect to login page with success status
+                window.location.href = 'login.html?signup=success&email=' + encodeURIComponent(email);
 
             } catch (err) {
                 button.textContent = 'SUBMIT APPLICATION';

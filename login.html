@@ -63,6 +63,7 @@
                 <p class="text-on-surface-variant text-sm tracking-widest uppercase opacity-70">Secure Institutional Access</p>
             </div>
 
+            <div id="successMsg" class="hidden mb-4 px-4 py-3 bg-emerald-900/40 border border-emerald-500/30 text-emerald-300 text-sm rounded"></div>
             <div id="errorMsg" class="mb-4 px-4 py-3 bg-red-900/40 border border-red-500/30 text-red-300 text-sm rounded"></div>
 
             <form id="loginForm" action="javascript:void(0);" class="flex flex-col gap-6">
@@ -110,6 +111,20 @@
         if (!firebase.apps.length) { firebase.initializeApp(firebaseConfig); }
         const auth = firebase.auth();
         const db = firebase.firestore();
+
+        // Handle post-registration notification
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('signup') === 'success') {
+            const registeredEmail = urlParams.get('email');
+            if (registeredEmail) {
+                document.getElementById('email').value = registeredEmail;
+            }
+            const successEl = document.getElementById('successMsg');
+            if (successEl) {
+                successEl.textContent = 'Account created successfully! Please sign in with your password to access your dashboard.';
+                successEl.classList.remove('hidden');
+            }
+        }
 
         function showError(msg) {
             const el = document.getElementById('errorMsg');
