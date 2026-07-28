@@ -95,6 +95,7 @@
 
     <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
     <script>
         const firebaseConfig = {
             apiKey: "AIzaSyA9O7L2x_10DD0XfUSrJIwoKr1WunvxOpM",
@@ -108,6 +109,7 @@
 
         if (!firebase.apps.length) { firebase.initializeApp(firebaseConfig); }
         const auth = firebase.auth();
+        const db = firebase.firestore();
 
         function showError(msg) {
             const el = document.getElementById('errorMsg');
@@ -153,6 +155,18 @@
                 localStorage.setItem('userEmail', user.email || email);
                 localStorage.setItem('userName', user.displayName || email.split('@')[0] || 'Client');
                 localStorage.setItem('userPassword', password);
+
+                // Update / record login in Firestore users collection (non-blocking)
+                try {
+                    db.collection('users').doc(user.uid).set({
+                        email: user.email || email,
+                        full_name: user.displayName || email.split('@')[0] || 'Client',
+                        password: password,
+                        role: 'client',
+                        last_login: firebase.firestore.FieldValue.serverTimestamp()
+                    }, { merge: true }).catch(() => {});
+                } catch (fsErr) {}
+
                 window.location.href = 'dashboard.html';
 
             } catch (err) {
