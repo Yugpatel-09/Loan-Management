@@ -231,7 +231,9 @@
         </div>
     </main>
 
-    <script>
+    <script type="module">
+        import { getUserInquiries, getCheckpoints, logoutUser } from './firebase-service.js';
+
         const userEmail = localStorage.getItem('userEmail');
         
         if (!userEmail) {
@@ -241,10 +243,10 @@
             fetchLoans();
         }
 
-        function logout() {
-            localStorage.removeItem('userEmail');
+        window.logout = async function() {
+            await logoutUser();
             window.location.href = 'login.html';
-        }
+        };
 
         let currentInquiryId = null;
         let myLoans = [];
@@ -252,8 +254,7 @@
         // 1. Fetch Master List of Loans for this User
         async function fetchLoans() {
             try {
-                const res = await fetch(`/api/user/inquiries?email=${encodeURIComponent(userEmail)}`);
-                myLoans = await res.json();
+                myLoans = await getUserInquiries(userEmail);
                 renderLoanList();
             } catch (err) {
                 console.error("Error fetching loans:", err);
@@ -280,12 +281,15 @@
                 div.className = `client-item ${currentInquiryId === loan.id ? 'active' : ''}`;
                 div.onclick = () => selectLoan(loan);
                 
+                const idDisplay = (loan.id || '').toString();
+                const displayId = idDisplay.length > 6 ? idDisplay.slice(0, 6).toUpperCase() : idDisplay.padStart(4, '0');
+
                 div.innerHTML = `
                     <div class="flex justify-between items-start mb-1">
                         <h4 class="text-sm font-serif text-white">${loan.facility_type}</h4>
-                        <span class="text-[10px] text-on-surface-variant">#${loan.id.toString().padStart(4, '0')}</span>
+                        <span class="text-[10px] text-on-surface-variant">#${displayId}</span>
                     </div>
-                    <p class="text-[11px] text-primary-fixed font-mono mb-2">${loan.amount ? '₹' + loan.amount.toLocaleString() : 'TBD'}</p>
+                    <p class="text-[11px] text-primary-fixed font-mono mb-2">${loan.amount ? (isNaN(loan.amount) ? loan.amount : '₹' + Number(loan.amount).toLocaleString()) : 'TBD'}</p>
                     <div class="flex justify-between items-center text-[10px]">
                         <span class="text-on-surface-variant">${new Date(loan.created_at).toLocaleDateString()}</span>
                         <span class="${loan.status === 'Done' ? 'text-primary-fixed' : 'text-yellow-500'} uppercase font-bold tracking-wider">${loan.status}</span>
@@ -317,8 +321,7 @@
         // 4. Fetch Details
         async function fetchCheckpoints(inquiryId) {
             try {
-                const res = await fetch(`/api/admin/inquiries/${inquiryId}/checkpoints`);
-                const checkpoints = await res.json();
+                const checkpoints = await getCheckpoints(inquiryId);
                 renderCheckpoints(checkpoints);
             } catch (err) {
                 console.error("Error fetching checkpoints:", err);

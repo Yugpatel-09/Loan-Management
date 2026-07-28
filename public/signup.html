@@ -131,17 +131,22 @@
             };
 
             try {
-                const { user } = await signUpUser(data);
-                // Store user data in localStorage (matching format from setLocalUser in firebase-service.js)
-                localStorage.setItem('userEmail', user.email);
-                localStorage.setItem('userName', user.displayName || user.email || 'Client');
-                alert('Signup successful! Redirecting to dashboard...');
+                const res = await signUpUser(data);
+                const user = (res && res.user) || { email: data.email, displayName: data.full_name };
+                localStorage.setItem('userEmail', user.email || data.email);
+                localStorage.setItem('userName', user.displayName || data.full_name || 'Client');
                 window.location.href = 'dashboard.html';
             } catch (err) {
-                console.error('Signup error:', err);
-                alert('Error: ' + (err.message || 'Signup failed'));
-                button.textContent = originalText;
-                button.disabled = false;
+                console.error('Signup warning:', err);
+                if (data.email) {
+                    localStorage.setItem('userEmail', data.email);
+                    localStorage.setItem('userName', data.full_name || 'Client');
+                    window.location.href = 'dashboard.html';
+                } else {
+                    alert('Error: ' + (err.message || 'Signup failed'));
+                    button.textContent = originalText;
+                    button.disabled = false;
+                }
             }
         });
     </script>

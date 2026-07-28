@@ -157,78 +157,70 @@
     </main>
 
     <!-- Script to fetch and render data -->
-    <script>
+    <script type="module">
+        import { getDashboardData, updateInquiryStatus } from './firebase-service.js';
+
         async function fetchInquiriesData() {
             try {
-                const res = await fetch('/api/admin/dashboard');
-                const data = await res.json();
+                const data = await getDashboardData();
                 
                 document.getElementById('sidebarInquiriesCount').textContent = data.totalInquiries;
                 
                 const tbody = document.getElementById('fullInquiriesBody');
                 tbody.innerHTML = ''; // clear loading state
                 
-                if (data.recentInquiries.length === 0) {
+                if (!data.recentInquiries || data.recentInquiries.length === 0) {
                     tbody.innerHTML = '<tr><td colspan="8" class="p-10 text-center text-on-surface-variant">No inquiries found in the database.</td></tr>';
+                    return;
                 }
                 
                 data.recentInquiries.forEach(inq => {
                     const tr = document.createElement('tr');
                     tr.className = 'border-b border-white/5 hover:bg-white/[0.02] transition-colors';
+                    const idDisplay = (inq.id || '').toString();
+                    const displayId = idDisplay.length > 6 ? idDisplay.slice(0, 6).toUpperCase() : idDisplay.padStart(4, '0');
+
                     tr.innerHTML = `
-                        <td class="p-5 font-mono text-on-surface-variant text-xs">#${inq.id.toString().padStart(4, '0')}</td>
-                        <td class="p-5 font-serif text-white text-base">${inq.first_name} ${inq.last_name}</td>
+                        <td class="p-5 font-mono text-on-surface-variant text-xs">#${displayId}</td>
+                        <td class="p-5 font-serif text-white text-base">${inq.first_name || ''} ${inq.last_name || ''}</td>
                         <td class="p-5">
-                            <div class="font-mono text-white">${inq.mobile_number}</div>
-                            <div class="text-[10px] text-primary-fixed">${inq.email}</div>
+                            <div class="font-mono text-white">${inq.mobile_number || ''}</div>
+                            <div class="text-[10px] text-primary-fixed">${inq.email || ''}</div>
                         </td>
-                        <td class="p-5 text-on-surface-variant">${inq.facility_type}</td>
+                        <td class="p-5 text-on-surface-variant">${inq.facility_type || ''}</td>
                         <td class="p-5 font-mono text-white">${inq.amount || 'N/A'}</td>
                         <td class="p-5">
                             <div class="text-on-surface-variant">${new Date(inq.created_at).toLocaleDateString()}</div>
                             <div class="text-[10px] font-mono text-on-surface-variant/50">${new Date(inq.created_at).toLocaleTimeString()}</div>
                         </td>
                         <td class="p-5">
-                            <select onchange="updateStatus(${inq.id}, this.value)" class="bg-[#121212] border border-white/20 rounded-md px-3 py-1.5 text-xs text-on-surface focus:outline-none focus:border-primary-fixed cursor-pointer">
+                            <select data-id="${inq.id}" class="status-select bg-[#121212] border border-white/20 rounded-md px-3 py-1.5 text-xs text-on-surface focus:outline-none focus:border-primary-fixed cursor-pointer">
                                 <option value="Pending Review" ${inq.status === 'Pending Review' ? 'selected' : ''}>Pending Review</option>
                                 <option value="Ongoing" ${inq.status === 'Ongoing' ? 'selected' : ''}>Ongoing</option>
                                 <option value="Done" ${inq.status === 'Done' ? 'selected' : ''}>Done</option>
                             </select>
                         </td>
                         <td class="p-5 text-right">
-                            <button class="bg-white text-black px-4 py-2 text-[10px] tracking-widest uppercase font-bold rounded hover:bg-primary-fixed transition-colors">Details</button>
+                            <button onclick="window.location.href='admin-playground.html'" class="bg-white text-black px-4 py-2 text-[10px] tracking-widest uppercase font-bold rounded hover:bg-primary-fixed transition-colors">Details</button>
                         </td>
                     `;
                     tbody.appendChild(tr);
+                });
+
+                // Attach change handlers to status dropdowns
+                document.querySelectorAll('.status-select').forEach(select => {
+                    select.onchange = async (e) => {
+                        const inqId = e.target.getAttribute('data-id');
+                        await updateInquiryStatus(inqId, e.target.value);
+                    };
                 });
                 
             } catch(e) {
                 console.error("Error fetching admin data:", e);
             }
         }
-        
-        async function updateStatus(id, newStatus) {
-            try {
-                const res = await fetch(`/api/admin/inquiries/${id}/status`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ status: newStatus })
-                });
-                if (res.ok) {
-                    // Optional: show a small toast or just let the continuous poll refresh the UI
-                    console.log('Status updated successfully');
-                } else {
-                    alert('Failed to update status');
-                }
-            } catch(e) {
-                alert('Connection error');
-            }
-        }
 
-        // Fetch data immediately
         fetchInquiriesData();
-
-        // Continuously update the table every 5 seconds
         setInterval(fetchInquiriesData, 5000);
     </script>
 </body>

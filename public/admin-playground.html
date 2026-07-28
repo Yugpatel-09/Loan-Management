@@ -249,7 +249,16 @@
         </div>
     </main>
 
-    <script>
+    <script type="module">
+        import {
+            getAllInquiries,
+            getCheckpoints,
+            addCheckpoint as apiAddCheckpoint,
+            updateCheckpoint as apiUpdateCheckpoint,
+            deleteCheckpoint as apiDeleteCheckpoint,
+            deleteInquiryAndCheckpoints
+        } from './firebase-service.js';
+
         let currentInquiryId = null;
         let checkpoints = [];
         let allInquiries = [];
@@ -257,9 +266,7 @@
         // 1. Fetch Master List of Inquiries
         async function fetchInquiries() {
             try {
-                const res = await fetch('/api/admin/dashboard');
-                const data = await res.json();
-                allInquiries = data.recentInquiries || []; // It fetches all now due to our previous change
+                allInquiries = await getAllInquiries();
                 renderClientList();
             } catch (err) {
                 console.error("Error fetching inquiries:", err);
@@ -281,15 +288,18 @@
                 div.className = `client-item ${currentInquiryId === inq.id ? 'active' : ''}`;
                 div.onclick = () => selectInquiry(inq);
                 
+                const idDisplay = (inq.id || '').toString();
+                const displayId = idDisplay.length > 6 ? idDisplay.slice(0, 6).toUpperCase() : idDisplay.padStart(4, '0');
+
                 div.innerHTML = `
                     <div class="flex justify-between items-start mb-1">
-                        <h4 class="text-sm font-serif text-white">${inq.first_name} ${inq.last_name}</h4>
-                        <span class="text-[10px] text-on-surface-variant">#${inq.id.toString().padStart(4, '0')}</span>
+                        <h4 class="text-sm font-serif text-white">${inq.first_name || ''} ${inq.last_name || ''}</h4>
+                        <span class="text-[10px] text-on-surface-variant">#${displayId}</span>
                     </div>
-                    <p class="text-[11px] text-primary-fixed font-mono mb-2">${inq.facility_type}</p>
+                    <p class="text-[11px] text-primary-fixed font-mono mb-2">${inq.facility_type || ''}</p>
                     <div class="flex justify-between items-center text-[10px]">
                         <span class="text-on-surface-variant">${new Date(inq.created_at).toLocaleDateString()}</span>
-                        <span class="${inq.status === 'Done' ? 'text-primary-fixed' : 'text-yellow-500'} uppercase font-bold tracking-wider">${inq.status}</span>
+                        <span class="${inq.status === 'Done' ? 'text-primary-fixed' : 'text-yellow-500'} uppercase font-bold tracking-wider">${inq.status || 'Pending'}</span>
                     </div>
                 `;
                 list.appendChild(div);
@@ -299,28 +309,24 @@
         // 3. Select an Inquiry
         async function selectInquiry(inq) {
             currentInquiryId = inq.id;
-            renderClientList(); // Re-render to highlight active
+            renderClientList();
             
-            // Update UI Header
             document.getElementById('detailHeader').classList.remove('hidden');
             document.getElementById('detailEmptyHeader').classList.add('hidden');
             document.getElementById('deleteInquiryBtn').classList.remove('hidden');
-            document.getElementById('clientNameHeader').textContent = `${inq.first_name} ${inq.last_name}`;
-            document.getElementById('clientFacilityHeader').textContent = inq.facility_type;
+            document.getElementById('clientNameHeader').textContent = `${inq.first_name || ''} ${inq.last_name || ''}`;
+            document.getElementById('clientFacilityHeader').textContent = inq.facility_type || '';
             
-            // Show Editor, Hide Empty State
             document.getElementById('editorBody').classList.remove('hidden');
             document.getElementById('emptyBody').classList.add('hidden');
 
-            // Fetch Checkpoints for this specific inquiry
             await fetchCheckpoints(currentInquiryId);
         }
 
         // 4. Fetch Details
         async function fetchCheckpoints(inquiryId) {
             try {
-                const res = await fetch(`/api/admin/inquiries/${inquiryId}/checkpoints`);
-                checkpoints = await res.json();
+                checkpoints = await getCheckpoints(inquiryId);
                 renderCheckpoints();
             } catch (err) {
                 console.error("Error fetching checkpoints:", err);
@@ -328,18 +334,15 @@
         }
 
         // 5. Add Checkpoint
-        async function addCheckpoint(title = "", focusAfter = true) {
+        window.addCheckpoint = async function(title = "", focusAfter = true) {
             if (!currentInquiryId) return;
             
             try {
-                const res = await fetch(`/api/admin/inquiries/${currentInquiryId}/checkpoints`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ title: title })
-                });
-                const newCp = await res.json();
-                checkpoints.push(newCp);
-                renderCheckpoints();
+                const newCp = await apiAddCheckpoint(currentInquiryId, title);
+                if (newCp) {
+                    checkpoints.push(newCp);
+                    renderCheckpoints();
+                }
                 
                 if (focusAfter) {
                     setTimeout(() => {
@@ -350,26 +353,21 @@
             } catch (err) {
                 console.error("Error adding checkpoint:", err);
             }
-        }
+        };
 
         // 6. Update Checkpoint
         async function updateCheckpoint(id, field, value) {
-            // Optimistic update locally
             const cp = checkpoints.find(c => c.id === id);
             if (!cp) return;
             
             cp[field] = value;
             
             if (field === 'is_completed') {
-                renderCheckpoints(); // re-render to cross out text and update completion status
+                renderCheckpoints();
             }
 
             try {
-                await fetch(`/api/admin/checkpoints/${id}`, {
-                    method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ [field]: value })
-                });
+                await apiUpdateCheckpoint(currentInquiryId, id, { [field]: value });
             } catch (err) {
                 console.error("Error updating checkpoint:", err);
             }
@@ -381,51 +379,40 @@
             renderCheckpoints();
 
             try {
-                await fetch(`/api/admin/checkpoints/${id}`, {
-                    method: 'DELETE'
-                });
+                await apiDeleteCheckpoint(currentInquiryId, id);
             } catch (err) {
                 console.error("Error deleting checkpoint:", err);
             }
         }
 
         // 7.5 Delete Entire Inquiry
-        async function deleteCurrentInquiry() {
+        window.deleteCurrentInquiry = async function() {
             if (!currentInquiryId) return;
             if (!confirm('Are you sure you want to completely delete this inquiry and all its requirements? This cannot be undone.')) return;
             
             try {
-                const res = await fetch(`/api/admin/inquiries/${currentInquiryId}`, {
-                    method: 'DELETE'
-                });
+                await deleteInquiryAndCheckpoints(currentInquiryId);
+                currentInquiryId = null;
+                document.getElementById('detailHeader').classList.add('hidden');
+                document.getElementById('detailEmptyHeader').classList.remove('hidden');
+                document.getElementById('deleteInquiryBtn').classList.add('hidden');
+                document.getElementById('editorBody').classList.add('hidden');
+                document.getElementById('emptyBody').classList.remove('hidden');
                 
-                if (res.ok) {
-                    currentInquiryId = null;
-                    document.getElementById('detailHeader').classList.add('hidden');
-                    document.getElementById('detailEmptyHeader').classList.remove('hidden');
-                    document.getElementById('deleteInquiryBtn').classList.add('hidden');
-                    document.getElementById('editorBody').classList.add('hidden');
-                    document.getElementById('emptyBody').classList.remove('hidden');
-                    
-                    fetchInquiries();
-                } else {
-                    alert("Failed to delete inquiry.");
-                }
+                fetchInquiries();
             } catch (err) {
                 console.error("Error deleting inquiry:", err);
-                alert("Server error. Failed to delete inquiry.");
             }
-        }
+        };
 
         // 8. Editor Logic
         function handleKeydown(e, id, currentIndex) {
             if (e.key === 'Enter') {
                 e.preventDefault();
-                addCheckpoint("");
+                window.addCheckpoint("");
             } else if (e.key === 'Backspace' && e.target.value === "") {
                 e.preventDefault();
                 deleteCheckpoint(id);
-                // Focus previous input if exists
                 setTimeout(() => {
                     const inputs = document.querySelectorAll('.notion-input');
                     if (currentIndex > 0 && inputs[currentIndex - 1]) {
@@ -447,17 +434,14 @@
                 const block = document.createElement('div');
                 block.className = 'notion-block';
                 
-                // Checkbox
                 const cb = document.createElement('input');
                 cb.type = 'checkbox';
                 cb.className = 'notion-checkbox';
                 cb.checked = cp.is_completed == 1;
                 cb.onchange = (e) => updateCheckpoint(cp.id, 'is_completed', e.target.checked ? 1 : 0);
                 
-                // Input
                 const input = document.createElement('input');
                 input.type = 'text';
-                // Use Tailwind utilities to override forms plugin defaults
                 input.className = `notion-input bg-transparent border-0 ring-0 focus:ring-0 focus:outline-none p-0 text-white placeholder-white/30 ${cp.is_completed == 1 ? 'completed text-on-surface-variant line-through' : ''}`;
                 input.value = cp.title;
                 input.placeholder = "Type a requirement...";
@@ -465,7 +449,6 @@
                 input.onblur = (e) => updateCheckpoint(cp.id, 'title', e.target.value);
                 input.onkeydown = (e) => handleKeydown(e, cp.id, index);
                 
-                // Delete button
                 const del = document.createElement('span');
                 del.className = 'material-symbols-outlined notion-delete text-[18px]';
                 del.innerText = 'delete';
@@ -478,14 +461,10 @@
                 list.appendChild(block);
             });
             
-            // Update status indicator
             document.getElementById('completionStatus').textContent = `${completedCount}/${checkpoints.length} Completed`;
         }
 
-        // Init
         fetchInquiries();
-        
-        // Optional: refresh left panel list periodically to catch new inquiries
         setInterval(fetchInquiries, 10000);
     </script>
 </body>

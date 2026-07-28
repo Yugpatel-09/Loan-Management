@@ -188,11 +188,12 @@
     </main>
 
     <!-- Script to fetch and render data -->
-    <script>
-        async function fetchDashboardData() {
+    <script type="module">
+        import { getDashboardData } from './firebase-service.js';
+
+        async function loadDashboard() {
             try {
-                const res = await fetch('/api/admin/dashboard');
-                const data = await res.json();
+                const data = await getDashboardData();
                 
                 document.getElementById('inquiriesToday').textContent = data.inquiriesToday;
                 document.getElementById('inquiriesYesterday').textContent = data.inquiriesYesterday;
@@ -202,24 +203,25 @@
                 const tbody = document.getElementById('recentInquiriesBody');
                 tbody.innerHTML = ''; // clear loading state
                 
-                if (data.recentInquiries.length === 0) {
+                if (!data.recentInquiries || data.recentInquiries.length === 0) {
                     tbody.innerHTML = '<tr><td colspan="6" class="p-5 text-center text-on-surface-variant">No inquiries found yet.</td></tr>';
+                    return;
                 }
                 
                 data.recentInquiries.forEach(inq => {
                     const tr = document.createElement('tr');
                     tr.className = 'border-b border-white/5 hover:bg-white/[0.02] transition-colors';
                     tr.innerHTML = `
-                        <td class="p-5 font-serif text-white">${inq.first_name} ${inq.last_name}</td>
+                        <td class="p-5 font-serif text-white">${inq.first_name || ''} ${inq.last_name || ''}</td>
                         <td class="p-5">
-                            <div class="font-mono text-white">${inq.mobile_number}</div>
-                            <div class="text-[10px] text-on-surface-variant">${inq.email}</div>
+                            <div class="font-mono text-white">${inq.mobile_number || ''}</div>
+                            <div class="text-[10px] text-on-surface-variant">${inq.email || ''}</div>
                         </td>
-                        <td class="p-5 text-on-surface-variant">${inq.facility_type}</td>
+                        <td class="p-5 text-on-surface-variant">${inq.facility_type || ''}</td>
                         <td class="p-5 font-mono text-primary-fixed">${inq.amount || 'N/A'}</td>
                         <td class="p-5 text-on-surface-variant">${new Date(inq.created_at).toLocaleString()}</td>
                         <td class="p-5 text-right">
-                            <button class="bg-white text-black px-4 py-2 text-[10px] tracking-widest uppercase font-bold rounded hover:bg-primary-fixed transition-colors">Review</button>
+                            <button onclick="window.location.href='admin-inquiries.html'" class="bg-white text-black px-4 py-2 text-[10px] tracking-widest uppercase font-bold rounded hover:bg-primary-fixed transition-colors">Review</button>
                         </td>
                     `;
                     tbody.appendChild(tr);
@@ -230,11 +232,8 @@
             }
         }
         
-        // Fetch data immediately
-        fetchDashboardData();
-
-        // Continuously update the dashboard every 5 seconds
-        setInterval(fetchDashboardData, 5000);
+        loadDashboard();
+        setInterval(loadDashboard, 5000);
     </script>
     
     <!-- Chart Configuration -->

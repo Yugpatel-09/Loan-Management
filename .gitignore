@@ -35,3 +35,6 @@ assets/.DS_Store
 reserve.db
 .vercel
 .env*
+*.log
+*.pid
+*.backup
