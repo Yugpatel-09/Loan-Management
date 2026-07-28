@@ -66,7 +66,7 @@
         </div>
 
         <div class="glass-panel p-10 shadow-2xl relative rounded-xl group border-t border-t-red-500/50">
-            <form id="adminLoginForm" class="flex flex-col gap-6">
+            <form id="adminLoginForm" action="javascript:void(0);" onsubmit="event.preventDefault();" class="flex flex-col gap-6">
                 <div>
                     <label class="block text-[10px] uppercase tracking-widest text-on-surface-variant mb-2">Admin ID / Username</label>
                     <input type="text" id="adminUser" required class="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-sm text-on-surface focus:outline-none focus:border-red-400 transition-colors placeholder:text-white/20 font-mono" placeholder="ADMIN-001">

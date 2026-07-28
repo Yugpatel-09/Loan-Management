@@ -1,5 +1,4 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
-import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-analytics.js";
 import {
     createUserWithEmailAndPassword,
     getAuth,
@@ -35,10 +34,9 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase safely
-let app, analytics, auth, db;
+let app, auth, db;
 try {
     app = initializeApp(firebaseConfig);
-    try { analytics = getAnalytics(app); } catch (e) {}
     auth = getAuth(app);
     db = getFirestore(app);
 } catch (e) {
