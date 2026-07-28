@@ -29,8 +29,8 @@ const firebaseConfig = {
   projectId: "loan-management-5dcd1",
   storageBucket: "loan-management-5dcd1.firebasestorage.app",
   messagingSenderId: "772887985088",
-  appId: "1:772887985088:web:91187a1df2718f8fe36625",
-  measurementId: "G-CF15SJ3QFW"
+  appId: "1:772887985088:web:d3e533d6b0974c9be36625",
+  measurementId: "G-1QWKNZZRT4"
 };
 
 // Initialize Firebase safely
