@@ -1,4 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-analytics.js";
 import {
     createUserWithEmailAndPassword,
     getAuth,
@@ -25,15 +26,18 @@ import {
 
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDI39W4F1gs6DoLqtYnM2zeyt8twlR3ldY",
-  authDomain: "management-5ba62.firebaseapp.com",
-  projectId: "management-5ba62",
-  storageBucket: "management-5ba62.firebasestorage.app",
-  messagingSenderId: "164249468602",
-  appId: "1:164249468602:web:5edf323769c618e37e8c83",
-  measurementId: "G-SGYH4SKW1J"
+  apiKey: "AIzaSyA9O7L2x_10DD0XfUSrJIwoKr1WunvxOpM",
+  authDomain: "loan-management-5dcd1.firebaseapp.com",
+  projectId: "loan-management-5dcd1",
+  storageBucket: "loan-management-5dcd1.firebasestorage.app",
+  messagingSenderId: "772887985088",
+  appId: "1:772887985088:web:91187a1df2718f8fe36625",
+  measurementId: "G-CF15SJ3QFW"
 };
+
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
 const auth = getAuth(app);
 const db = getFirestore(app);
 

@@ -34,3 +34,4 @@ assets/.DS_Store
 
 reserve.db
 .vercel
+.env*

@@ -119,7 +119,7 @@
             button.disabled = true;
 
             try {
-                const { user } = await loginUser({ email, password });
+                const { user } = await loginUser(email, password);
                 // Store user data in localStorage (matching format from setLocalUser in firebase-service.js)
                 localStorage.setItem('userEmail', user.email);
                 localStorage.setItem('userName', user.displayName || user.email || 'Client');
