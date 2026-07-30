@@ -40,22 +40,22 @@
         #errorMsg { display: none; }
     </style>
 </head>
-<body class="font-sans min-h-screen flex flex-col relative overflow-hidden">
+<body class="font-sans min-h-screen flex flex-col relative overflow-x-hidden overflow-y-auto">
     <div class="absolute inset-0 z-0 pointer-events-none">
         <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-primary-fixed/5 rounded-full blur-[120px] opacity-50"></div>
     </div>
 
-    <nav class="w-full z-50 flex justify-center items-center py-8 absolute top-0">
-        <a href="index.html" class="flex items-center gap-4 group">
-            <svg class="w-8 h-8 text-primary-fixed group-hover:rotate-180 transition-transform duration-700" viewBox="0 0 24 24" fill="currentColor">
+    <nav class="w-full z-50 flex justify-center items-center py-6 px-4 relative">
+        <a href="index.html" class="flex items-center gap-3 sm:gap-4 group">
+            <svg class="w-7 h-7 sm:w-8 sm:h-8 text-primary-fixed group-hover:rotate-180 transition-transform duration-700" viewBox="0 0 24 24" fill="currentColor">
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M12 0L14.5 9.5L24 12L14.5 14.5L12 24L9.5 14.5L0 12L9.5 9.5L12 0ZM12 14C13.1046 14 14 13.1046 14 12C14 10.8954 13.1046 10 12 10C10.8954 10 10 10.8954 10 12C10 13.1046 10.8954 14 12 14Z" />
             </svg>
-            <span class="text-xl font-serif tracking-widest uppercase">Mangukiya Reserve</span>
+            <span class="text-lg sm:text-xl font-serif tracking-widest uppercase">Mangukiya Reserve</span>
         </a>
     </nav>
 
-    <main class="flex-grow flex items-center justify-center p-6 z-10">
-        <div class="glass-panel w-full max-w-md p-10 lg:p-12 shadow-2xl relative">
+    <main class="flex-grow flex items-center justify-center p-4 sm:p-6 z-10 my-4 sm:my-8">
+        <div class="glass-panel w-full max-w-md p-6 sm:p-8 lg:p-12 shadow-2xl relative rounded-2xl">
             <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary-fixed to-transparent opacity-50"></div>
 
             <div class="text-center mb-10">

@@ -140,14 +140,44 @@
         }
     </style>
 </head>
-<body class="font-sans min-h-screen flex bg-background">
+<body class="font-sans min-h-screen flex flex-col lg:flex-row bg-background text-on-surface">
 
-    <!-- Sidebar -->
+    <!-- Mobile Navigation Drawer -->
+    <div id="mobileNavDrawer" class="hidden fixed inset-0 z-50 bg-black/95 backdrop-blur-2xl flex flex-col p-6 lg:hidden">
+        <div class="flex justify-between items-center pb-6 border-b border-white/10">
+            <div class="flex items-center gap-3">
+                <svg class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="currentColor">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M12 0L14.5 9.5L24 12L14.5 14.5L12 24L9.5 14.5L0 12L9.5 9.5L12 0ZM12 14C13.1046 14 14 13.1046 14 12C14 10.8954 13.1046 10 10 10C10.8954 10 10 10.8954 10 12C10 13.1046 10.8954 14 12 14Z" />
+                </svg>
+                <span class="text-base font-serif tracking-widest uppercase">Admin System</span>
+            </div>
+            <button onclick="toggleMobileNav()" class="p-2 text-on-surface hover:text-primary-fixed">
+                <span class="material-symbols-outlined text-2xl">close</span>
+            </button>
+        </div>
+        <nav class="flex flex-col gap-4 py-8">
+            <a href="admin-dashboard.html" class="flex items-center gap-4 text-on-surface-variant hover:text-white text-base py-2">
+                <span class="material-symbols-outlined">bar_chart</span> Dashboard
+            </a>
+            <a href="admin-inquiries.html" class="flex items-center gap-4 text-on-surface-variant hover:text-white text-base py-2">
+                <span class="material-symbols-outlined">inbox</span> Inquiries
+            </a>
+            <a href="admin-playground.html" class="flex items-center gap-4 text-white font-bold text-base py-2">
+                <span class="material-symbols-outlined">checklist</span> Playground
+            </a>
+        </nav>
+        <div class="mt-auto pt-6 border-t border-white/10 flex items-center justify-between">
+            <span class="text-sm font-bold text-on-surface">System Admin</span>
+            <a href="admin-login.html" class="text-xs text-red-400 hover:underline">Logout</a>
+        </div>
+    </div>
+
+    <!-- Sidebar (Desktop) -->
     <aside class="w-64 border-r border-white/5 bg-[#0a0a0a] flex flex-col hidden lg:flex shrink-0 z-20">
         <div class="p-8 border-b border-white/5">
             <div class="flex items-center gap-3">
                 <svg class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="currentColor">
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M12 0L14.5 9.5L24 12L14.5 14.5L12 24L9.5 14.5L0 12L9.5 9.5L12 0ZM12 14C13.1046 14 14 13.1046 14 12C14 10.8954 13.1046 10 12 10C10.8954 10 10 10.8954 10 12C10 13.1046 10.8954 14 12 14Z" />
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M12 0L14.5 9.5L24 12L14.5 14.5L12 24L9.5 14.5L0 12L9.5 9.5L12 0ZM12 14C13.1046 14 14 13.1046 14 12C14 10.8954 13.1046 10 10 10C10.8954 10 10 10.8954 10 12C10 13.1046 10.8954 14 12 14Z" />
                 </svg>
                 <span class="text-sm font-serif tracking-widest uppercase">Admin System</span>
             </div>
@@ -170,12 +200,19 @@
     </aside>
 
     <!-- Main Content (Master-Detail Layout) -->
-    <main class="flex-grow flex h-screen overflow-hidden">
+    <main class="flex-grow flex flex-col lg:flex-row min-w-0 relative overflow-x-hidden min-h-screen">
         
         <!-- Left Panel: Client List (Master) -->
-        <div class="w-80 border-r border-white/5 bg-[#121212]/50 flex flex-col shrink-0">
-            <div class="p-6 border-b border-white/5 bg-black/20">
-                <h3 class="text-xs tracking-widest text-on-surface-variant uppercase mb-2">Active Inquiries</h3>
+        <div class="w-full lg:w-80 border-b lg:border-b-0 lg:border-r border-white/5 bg-[#121212]/50 flex flex-col shrink-0">
+            <div class="p-4 sm:p-6 border-b border-white/5 bg-black/20">
+                <div class="flex items-center justify-between mb-2">
+                    <div class="flex items-center gap-3">
+                        <button onclick="toggleMobileNav()" class="lg:hidden p-1 text-on-surface hover:text-primary-fixed focus:outline-none">
+                            <span class="material-symbols-outlined text-2xl">menu</span>
+                        </button>
+                        <h3 class="text-xs tracking-widest text-on-surface-variant uppercase">Active Inquiries</h3>
+                    </div>
+                </div>
                 <div class="relative">
                     <span class="material-symbols-outlined absolute left-3 top-2.5 text-[18px] text-white/30">search</span>
                     <input type="text" placeholder="Search clients..." class="w-full bg-white/5 border border-white/10 rounded-md pl-10 pr-4 py-2 text-xs text-white focus:outline-none focus:border-primary-fixed">
@@ -462,6 +499,13 @@
             });
             
             document.getElementById('completionStatus').textContent = `${completedCount}/${checkpoints.length} Completed`;
+        }
+
+        function toggleMobileNav() {
+            const drawer = document.getElementById('mobileNavDrawer');
+            if (drawer) {
+                drawer.classList.toggle('hidden');
+            }
         }
 
         fetchInquiries();
