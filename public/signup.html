@@ -80,7 +80,12 @@
                 </div>
                 <div>
                     <label class="block text-xs uppercase tracking-widest text-on-surface-variant mb-2">Create Password</label>
-                    <input type="password" id="password" required minlength="6" class="w-full bg-black/50 border border-white/10 px-4 py-3 text-on-surface focus:outline-none focus:border-primary-fixed transition-colors placeholder:text-white/20" placeholder="••••••••">
+                    <div class="relative">
+                        <input type="password" id="password" required minlength="6" class="w-full bg-black/50 border border-white/10 px-4 py-3 pr-12 text-on-surface focus:outline-none focus:border-primary-fixed transition-colors placeholder:text-white/20" placeholder="••••••••">
+                        <button type="button" onclick="togglePasswordVisibility('password', this)" aria-label="Toggle Password Visibility" class="absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-primary-fixed transition-colors p-1 flex items-center justify-center">
+                            <span class="material-symbols-outlined text-[18px]">visibility</span>
+                        </button>
+                    </div>
                 </div>
                 <div class="flex items-start gap-3 mt-2">
                     <input type="checkbox" required id="terms" class="w-4 h-4 mt-0.5 rounded-sm bg-black/50 border-white/10 text-primary-fixed focus:ring-primary-fixed focus:ring-offset-0">
@@ -125,6 +130,18 @@
 
         function hideError() {
             document.getElementById('errorMsg').style.display = 'none';
+        }
+
+        function togglePasswordVisibility(inputId, btn) {
+            const input = document.getElementById(inputId);
+            const icon = btn.querySelector('.material-symbols-outlined');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.textContent = 'visibility_off';
+            } else {
+                input.type = 'password';
+                icon.textContent = 'visibility';
+            }
         }
 
         // Wraps a promise with a timeout — Firebase hangs if domain is not whitelisted
