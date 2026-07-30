@@ -54,7 +54,7 @@
         }
     </style>
 </head>
-<body class="font-sans min-h-screen flex flex-col relative overflow-hidden">
+<body class="font-sans min-h-screen flex flex-col relative overflow-x-hidden overflow-y-auto">
     <!-- Dynamic Background Elements -->
     <div class="absolute inset-0 z-0 pointer-events-none overflow-hidden">
         <div class="absolute -top-[20%] -right-[10%] w-[800px] h-[800px] bg-primary-fixed/5 rounded-full blur-[150px]"></div>
@@ -65,7 +65,7 @@
     <nav class="w-full z-50 flex justify-between items-center px-4 sm:px-10 py-6 relative">
         <a href="index.html" class="flex items-center gap-3 sm:gap-4 group">
             <svg class="w-7 h-7 sm:w-8 sm:h-8 text-primary-fixed group-hover:rotate-180 transition-transform duration-700" viewBox="0 0 24 24" fill="currentColor">
-                <path fill-rule="evenodd" clip-rule="evenodd" d="M12 0L14.5 9.5L24 12L14.5 14.5L12 24L9.5 14.5L0 12L9.5 9.5L12 0ZM12 14C13.1046 14 14 13.1046 14 12C14 10.8954 13.1046 10 12 10C10.8954 10 10 10.8954 10 12C10 13.1046 10.8954 14 12 14Z" />
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M12 0L14.5 9.5L24 12L14.5 14.5L12 24L9.5 14.5L0 12L9.5 9.5L12 0ZM12 14C13.1046 14 14 13.1046 14 12C14 10.8954 13.1046 10 10 10C10.8954 10 10 10.8954 10 12C10 13.1046 10.8954 14 12 14Z" />
             </svg>
             <span class="text-lg sm:text-xl font-serif tracking-widest uppercase hidden md:block">Mangukiya Reserve</span>
         </a>
@@ -76,49 +76,49 @@
     </nav>
 
     <!-- Main Content -->
-    <main class="flex-grow relative z-10 w-full max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-12 lg:py-20 flex items-center justify-center">
-        <div class="grid lg:grid-cols-[1fr_1.1fr] gap-10 lg:gap-20 w-full items-center">
+    <main class="flex-grow relative z-10 w-full max-w-6xl mx-auto px-4 sm:px-6 py-4 sm:py-8 lg:py-16 flex flex-col justify-start lg:justify-center mb-12">
+        <div class="grid lg:grid-cols-[1fr_1.1fr] gap-8 lg:gap-20 w-full items-start lg:items-center">
             
             <!-- Left Side: Copy & Contact Info -->
             <div class="flex flex-col justify-center">
-                <div class="mb-8 sm:mb-12">
-                    <span class="text-primary-fixed font-mono text-xs sm:text-sm tracking-[0.2em] uppercase mb-4 flex items-center gap-3"><span class="w-8 h-px bg-primary-fixed"></span> Application Process</span>
-                    <h1 class="text-3xl sm:text-5xl lg:text-6xl font-serif leading-tight tracking-tight mb-4 sm:mb-6">Initiate Your <br><span class="italic font-light text-primary-fixed">Application.</span></h1>
+                <div class="mb-6 sm:mb-12">
+                    <span class="text-primary-fixed font-mono text-xs sm:text-sm tracking-[0.2em] uppercase mb-3 sm:mb-4 flex items-center gap-3"><span class="w-8 h-px bg-primary-fixed"></span> Application Process</span>
+                    <h1 class="text-3xl sm:text-5xl lg:text-6xl font-serif leading-tight tracking-tight mb-3 sm:mb-6">Initiate Your <br><span class="italic font-light text-primary-fixed">Application.</span></h1>
                     <p class="text-on-surface-variant text-sm sm:text-base leading-relaxed max-w-md">
                         To maintain our institutional standards, all financing facilities require a direct consultation with our senior advisory board. Connect directly or request a callback.
                     </p>
                 </div>
 
-                <div class="flex flex-col gap-4">
+                <div class="flex flex-col gap-3 sm:gap-4 mb-6 lg:mb-0">
                     <!-- Contact Block 1 -->
                     <div class="group cursor-pointer flex items-center gap-4 sm:gap-6 p-3 sm:p-4 -ml-2 sm:-ml-4 hover:bg-white/[0.02] rounded-xl transition-colors">
-                        <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-white/5 border border-white/5 flex items-center justify-center group-hover:bg-primary-fixed/10 group-hover:border-primary-fixed/20 transition-colors shrink-0">
-                            <span class="material-symbols-outlined text-white group-hover:text-primary-fixed transition-colors">phone_in_talk</span>
+                        <div class="w-10 h-10 sm:w-14 sm:h-14 rounded-full bg-white/5 border border-white/5 flex items-center justify-center group-hover:bg-primary-fixed/10 group-hover:border-primary-fixed/20 transition-colors shrink-0">
+                            <span class="material-symbols-outlined text-white group-hover:text-primary-fixed transition-colors text-[20px] sm:text-[24px]">phone_in_talk</span>
                         </div>
                         <div>
-                            <p class="text-[10px] uppercase tracking-[0.2em] text-on-surface-variant mb-1">Direct Advisory Line</p>
+                            <p class="text-[10px] uppercase tracking-[0.2em] text-on-surface-variant mb-0.5 sm:mb-1">Direct Advisory Line</p>
                             <p class="text-base sm:text-xl font-mono text-white tracking-tight group-hover:text-primary-fixed transition-colors">+91 98247 63841</p>
                         </div>
                     </div>
                     
                     <!-- Contact Block 2 -->
                     <div class="group cursor-pointer flex items-center gap-4 sm:gap-6 p-3 sm:p-4 -ml-2 sm:-ml-4 hover:bg-white/[0.02] rounded-xl transition-colors">
-                        <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-white/5 border border-white/5 flex items-center justify-center group-hover:bg-primary-fixed/10 group-hover:border-primary-fixed/20 transition-colors shrink-0">
-                            <span class="material-symbols-outlined text-white group-hover:text-primary-fixed transition-colors">mail</span>
+                        <div class="w-10 h-10 sm:w-14 sm:h-14 rounded-full bg-white/5 border border-white/5 flex items-center justify-center group-hover:bg-primary-fixed/10 group-hover:border-primary-fixed/20 transition-colors shrink-0">
+                            <span class="material-symbols-outlined text-white group-hover:text-primary-fixed transition-colors text-[20px] sm:text-[24px]">mail</span>
                         </div>
                         <div>
-                            <p class="text-[10px] uppercase tracking-[0.2em] text-on-surface-variant mb-1">Private Email</p>
+                            <p class="text-[10px] uppercase tracking-[0.2em] text-on-surface-variant mb-0.5 sm:mb-1">Private Email</p>
                             <p class="text-base sm:text-xl font-mono text-white tracking-tight group-hover:text-primary-fixed transition-colors break-all">aomassociate@gmail.com</p>
                         </div>
                     </div>
                     
                     <!-- Contact Block 3 -->
                     <div class="group cursor-pointer flex items-center gap-4 sm:gap-6 p-3 sm:p-4 -ml-2 sm:-ml-4 hover:bg-white/[0.02] rounded-xl transition-colors">
-                        <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-white/5 border border-white/5 flex items-center justify-center group-hover:bg-primary-fixed/10 group-hover:border-primary-fixed/20 transition-colors shrink-0">
-                            <span class="material-symbols-outlined text-white group-hover:text-primary-fixed transition-colors">corporate_fare</span>
+                        <div class="w-10 h-10 sm:w-14 sm:h-14 rounded-full bg-white/5 border border-white/5 flex items-center justify-center group-hover:bg-primary-fixed/10 group-hover:border-primary-fixed/20 transition-colors shrink-0">
+                            <span class="material-symbols-outlined text-white group-hover:text-primary-fixed transition-colors text-[20px] sm:text-[24px]">corporate_fare</span>
                         </div>
                         <div>
-                            <p class="text-[10px] uppercase tracking-[0.2em] text-on-surface-variant mb-1">Corporate Headquarters</p>
+                            <p class="text-[10px] uppercase tracking-[0.2em] text-on-surface-variant mb-0.5 sm:mb-1">Corporate Headquarters</p>
                             <p class="text-xs sm:text-sm font-sans text-white leading-relaxed tracking-wide group-hover:text-primary-fixed transition-colors">Mangukiya Consultant, Surat, Gujarat</p>
                         </div>
                     </div>
@@ -126,7 +126,7 @@
             </div>
 
             <!-- Right Side: Consultation Form -->
-            <div class="bg-[#121212]/90 backdrop-blur-2xl border border-white/10 p-6 sm:p-10 lg:p-12 shadow-2xl relative rounded-2xl group">
+            <div class="bg-[#121212]/90 backdrop-blur-2xl border border-white/10 p-5 sm:p-10 lg:p-12 shadow-2xl relative rounded-2xl group">
                 <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary-fixed to-transparent opacity-50 rounded-t-2xl"></div>
                 
                 <h3 class="text-2xl sm:text-3xl font-serif mb-2 text-white">Request Consultation</h3>
@@ -144,7 +144,7 @@
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-2 gap-5">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
                         <div>
                             <label class="block text-[10px] uppercase tracking-widest text-on-surface-variant mb-2">Mobile Number</label>
                             <input type="tel" id="mobile_number" required class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm text-on-surface focus:outline-none focus:border-primary-fixed transition-colors placeholder:text-white/20" placeholder="+91">
